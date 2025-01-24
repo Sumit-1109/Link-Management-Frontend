@@ -1,0 +1,245 @@
+.loginPage {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: row;
+}
+
+.imageSection {
+    width: 43%;
+    height: 100%;
+}
+
+.imageSection img {
+    width: 100%;
+    height: 100%;
+}
+
+.loginSection {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.redirectButtons {
+    margin-top: 4%;
+    margin-left: 46%;
+    width: 22%;
+    height: 6%;
+    display: flex;
+    justify-content: flex-end;
+
+    display: flex;
+    justify-content: space-between;
+}
+
+.redirectButtons .buttons {
+    flex: 0.45;
+    height: 100%;
+}
+
+.redirectButtons .buttons button {
+    height: 100%;
+    width: 100%;
+    border-radius: 7.5px;
+    font-family: 'Manrope';
+    font-size: 0.8rem;
+    font-weight: 600;
+    line-height: 1;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none;
+}
+
+.signup button {
+    border: none;
+    background-color: transparent;
+}
+
+.login button {
+    border: 1px solid rgba(27, 72, 218, 1);
+    background-color: rgba(27, 72, 218, 1);
+    color: white;
+}
+
+
+
+.heading {
+    margin-top: 8.5%;
+    width: 73%;
+    font-family: 'Manrope';
+    font-size: 1.15rem;
+    font-weight: 600;
+}
+
+
+
+form {
+    margin-top: 15%;
+    width: 58%;
+    height: 29%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.inputBoxes {
+    width: 100%;
+    height: 62%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.inputBoxes div {
+    width: 100%;
+    height: 40%;
+    border: 1px solid rgba(59, 60, 81, 1);
+    background-color: rgba(255, 255, 255, 1);
+    border-radius: 7.5px;
+}
+
+.inputBoxes div input {
+    width: 100%;
+    height: 100%;
+    background-color: transparent;
+    border: none;
+    font-family: 'Manrope';
+    font-size: 1.1rem;
+    font-weight: 600;
+    line-height: 1;
+    text-decoration-skip-ink: none;
+    padding-left: 5%;
+}
+
+.inputBoxes div input::placeholder {
+    color: rgba(179, 179, 179, 1);
+}
+
+.inputBoxes div input:focus {
+    outline: none;
+}
+
+
+
+.register {
+    width: 100%;
+    height: 22.5%;
+    background-color: rgba(27, 72, 218, 1);
+    border-radius: 7.5px;
+}
+
+.register button {
+    width: 100%;
+    height: 100%;
+    background-color: transparent;
+    border: none;
+    color: white;
+    font-family: 'Manrope';
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+
+
+.toSignup {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.3rem;
+    margin-top: 3.5%;
+    font-family: 'Manrope';
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.toSignup a{
+    text-decoration: none;
+    color: rgba(27, 72, 218, 1);
+}
+
+
+.loginSection{
+    user-select: none;
+}
+
+.inputBoxes div input{
+    user-select: none;
+    -webkit-touch-callout: none;
+}
+
+button:active{
+    transform: scale(0.95);
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
+}
+
+a{
+    user-select: none;
+}
+
+@media (max-width: 480px) {
+    .redirectButtons {
+        width: 67.5%;
+        height: 4.25%;
+        margin-top: 12.5%;
+        margin-left: 15%;
+    }
+
+
+    .redirectButtons .buttons {
+        flex: 0.47;
+    }
+
+    .redirectButtons .buttons button {
+        border-radius: 7.5px;
+        font-size: 0.85rem;
+    }
+
+    .heading {
+        margin-top: 50%;
+        width: 80%;
+    }
+
+    .heading {
+        font-size: 1rem;
+        font-weight: 600;
+    }
+
+    form {
+        margin-top: 22%;
+        width: 80%;
+        height: 17.5%;
+    }
+
+
+    .inputBoxes div input {
+        font-size: 0.85rem;
+    }
+
+    .register {
+        height: 24%;
+    }
+
+    .register button {
+        font-size: 0.9rem;
+    }
+
+
+    .toSignup {
+        margin-top: 8%;
+        font-size: 0.8rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 0;
+    }
+    
+    .toSignup a{
+        text-decoration: none;
+        color: rgba(27, 72, 218, 1);
+    }
+
+}
