@@ -2,8 +2,10 @@ import "./Login.css";
 import authImage from "../../../assets/AuthImage.png";
 import { useState } from "react";
 import { useNavigate, NavLink } from "react-router-dom";
+import { login } from "../../../services/auth";
+import PropTypes from "prop-types";
 
-function Login() {
+function Login({showToast}) {
   const navigate = useNavigate();
 
   const [loginDetails, setLoginDetails] = useState({
@@ -17,6 +19,37 @@ function Login() {
       [e.target.id]: e.target.value.trim(),
     });
   };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try{
+        const res = await login(loginDetails);
+
+        if (res.status === 200){
+
+            const data = await res.json();
+            const {message, token} = data;
+
+            localStorage.setItem("token", token);
+
+            setLoginDetails({
+                email: "",
+                password: "",
+            });
+
+            showToast(message);
+            navigate("/dashboard");
+        } else {
+            const data = await res.json();
+            const errorMessage = data.message;
+
+            showToast(errorMessage);
+        }
+    } catch (err) {
+        console.log(err);
+    }
+  }
 
   return (
     <div className="loginPage">
@@ -37,7 +70,7 @@ function Login() {
 
         <div className="heading">Login</div>
 
-        <form className="loginForm" action="">
+        <form className="loginForm" onSubmit={handleSubmit}>
           <div className="loginInputBoxes">
             <div className="emailInput">
               <input
@@ -54,7 +87,7 @@ function Login() {
                 type="password"
                 id="password"
                 placeholder="Password"
-                value={loginDetails.email}
+                value={loginDetails.password}
                 onChange={handleChange}
               />
             </div>
@@ -77,3 +110,7 @@ function Login() {
 }
 
 export default Login;
+
+Login.propTypes = {
+    showToast: PropTypes.func,
+}

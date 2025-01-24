@@ -2,13 +2,15 @@ import "./Signup.css";
 import authImage from "../../../assets/AuthImage.png";
 import { useState } from "react";
 import { useNavigate, NavLink } from "react-router-dom";
+import { signup } from "../../../services/auth";
+import PropTypes from "prop-types";
 
-function Signup() {
+function Signup({showToast}) {
   const navigate = useNavigate();
 
   const [signupDetails, setSignupDetails] = useState({
     name: "",
-    phone: "",
+    mobile: "",
     email: "",
     password: "",
     confirmPassword: "",
@@ -20,6 +22,41 @@ function Signup() {
       [e.target.id]: e.target.value.trim(),
     });
   };
+
+  const handleSubmit = async (e) => {
+
+    e.preventDefault();
+
+    try {
+
+        const res = await signup(signupDetails);
+
+        if(res.status === 201) {
+            const data = await res.json();
+            const successMessage = data.message; 
+
+            setSignupDetails({
+                name: "",
+                mobile: "",
+                email: "",
+                password: "",
+                confirmPassword: "",
+            });
+
+            showToast(successMessage);
+            navigate("/dashboard");
+
+        } else {
+            const data = await res.json();
+            const errorMessage = data.message;
+
+            showToast(errorMessage);
+        }
+    } catch (err) {
+        console.log(err);
+    }
+
+  }
 
   return (
     <div className="signupPage">
@@ -40,7 +77,7 @@ function Signup() {
 
         <div className="heading">Join us Today!</div>
 
-        <form className="signupForm" action="">
+        <form className="signupForm" onSubmit={handleSubmit}>
         
           <div className="signupInputBoxes">
 
@@ -49,7 +86,7 @@ function Signup() {
                 type="text"
                 id="name"
                 placeholder="Name"
-                value={signupDetails.email}
+                value={signupDetails.name}
                 onChange={handleChange}
               />
             </div>
@@ -69,7 +106,7 @@ function Signup() {
                 type="number"
                 id="mobile"
                 placeholder="Mobile"
-                value={signupDetails.email}
+                value={signupDetails.mobile}
                 onChange={handleChange}
               />
             </div>
@@ -77,6 +114,7 @@ function Signup() {
             <div className="passwordInput">
               <input
                 type="password"
+                id="password"
                 placeholder="Password"
                 value={signupDetails.password}
                 onChange={handleChange}
@@ -86,6 +124,7 @@ function Signup() {
             <div className="confirmPasswordInput">
               <input
                 type="password"
+                id="confirmPassword"
                 placeholder="Confirm Password"
                 value={signupDetails.confirmPassword}
                 onChange={handleChange}
@@ -96,7 +135,7 @@ function Signup() {
           
 
           <div className="signupRegister">
-            <button>Register</button>
+            <button type="submit">Register</button>
           </div>
         </form>
 
@@ -112,3 +151,7 @@ function Signup() {
 }
 
 export default Signup;
+
+Signup.propTypes = {
+    showToast : PropTypes.func,
+}
