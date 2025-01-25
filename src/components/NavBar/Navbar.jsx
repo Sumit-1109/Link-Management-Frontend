@@ -10,8 +10,9 @@ import nightImg from "../../assets/night.png";
 import create from '../../assets/create.png';
 import search from '../../assets/search.png';
 import { getUserDetails } from "../../services/auth";
+import PropTypes from "prop-types";
 
-function Navbar() {
+function Navbar({setShowModal}) {
   const navigate = useNavigate();
 
   const [time, setTime] = useState("");
@@ -57,8 +58,6 @@ function Navbar() {
       let newGreeting = "";
       let imgSrc = "";
 
-      console.log(now, hour);
-
       if (hour >= 5 && hour < 12) {
         newGreeting = `Good morning, ${firstName}`;
         imgSrc = morningImg;
@@ -68,7 +67,7 @@ function Navbar() {
       } else if (hour >= 16 && hour < 20) {
         newGreeting = `Good evening, ${firstName}`;
         imgSrc = eveningImg;
-      } else if (hour >= 20 && hour < 5) {
+      } else {
         newGreeting = `Good night, ${firstName}`;
         imgSrc = nightImg;
       }
@@ -112,7 +111,6 @@ function Navbar() {
         </div>
 
         <div className="greetingsNameAndTime">
-
           <p className="greetingsName">{greeting}</p>
           <p className="greetingsTime">{time}</p>
 
@@ -120,7 +118,7 @@ function Navbar() {
       </div>
 
     <div className="navbarRight">
-    <div className="createNewButton">
+    <div className="createNewButton" onClick={() => setShowModal(true)}>
         <button> <img src={create} alt="create" /> Create New</button>
       </div>
 
@@ -148,3 +146,7 @@ function Navbar() {
 }
 
 export default Navbar;
+
+Navbar.propTypes = {
+  setShowModal : PropTypes.func
+}

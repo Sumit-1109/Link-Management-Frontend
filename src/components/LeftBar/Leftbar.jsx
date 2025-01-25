@@ -1,8 +1,9 @@
 import "./Leftbar.css";
 import CuvetteLogo from "../../assets/cuvetteLogo.svg";
 import { useLocation, NavLink } from "react-router-dom";
+import PropTypes from "prop-types";
 
-function Leftbar() {
+function Leftbar({setEditModal}) {
 
   const location = useLocation();
 
@@ -23,7 +24,7 @@ function Leftbar() {
 )} <p className={location.pathname === '/home' ? 'selected' : ''}>Dashboard</p>
         </NavLink>
 
-        <NavLink to='/home/links' className={`dashboardTabName ${location.pathname === '/home/links' ? 'activeTab' : ''}`}>
+        <NavLink to='/home/links' state={setEditModal} className={`dashboardTabName ${location.pathname === '/home/links' ? 'activeTab' : ''}`}>
           {(
             <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 
@@ -65,3 +66,6 @@ function Leftbar() {
 
 export default Leftbar;
 
+Leftbar.propTypes = {
+  setEditModal : PropTypes.func,
+}
