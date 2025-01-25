@@ -64,7 +64,7 @@ function Login({showToast}) {
           </div>
 
           <div className="buttons login">
-            <button disabled="true">Login</button>
+            <button>Login</button>
           </div>
         </div>
 

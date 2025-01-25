@@ -67,7 +67,7 @@ function Signup({showToast}) {
       <div className="signupSection">
         <div className="redirectButtons">
           <div className="buttons signup">
-            <button disabled={true}>SignUp</button>
+            <button>SignUp</button>
           </div>
 
           <div className="buttons login">
