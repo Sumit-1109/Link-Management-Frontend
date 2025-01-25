@@ -19,6 +19,7 @@ function Navbar() {
   const [greetingImg, setGreetingImg] = useState("");
   const [firstName, setFirstName] = useState("");
   const [initials, setInitials] = useState("");
+  const [showLogout, setShowLogout] = useState(false);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -94,6 +95,11 @@ function Navbar() {
     };
   }, [firstName]);
 
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    navigate('/login');
+  }
+
   return (
     <div className="navbarComponent">
 
@@ -123,9 +129,18 @@ function Navbar() {
         <input type="text" placeholder="Search link" />
       </div>
 
-      <div className="greetingsInitial">
+      <div className="greetingsInitial" onClick={() => setShowLogout(!showLogout)}>
         <p>{initials}</p>
       </div>
+
+      {
+          showLogout && (
+            <div className="navbarLogoutButton" onClick={handleLogout}>
+              <p>Logout</p>
+            </div>
+          )
+        }
+
     </div>
 
     </div>

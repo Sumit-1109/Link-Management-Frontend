@@ -10,7 +10,7 @@ function AuthRedirect() {
     const token = localStorage.getItem('token');
 
     if (token) {
-      navigate('/dashboard');
+      navigate('/home');
     } else {
       navigate('/login');
     }

@@ -44,7 +44,7 @@ function Signup({showToast}) {
             });
 
             showToast(successMessage);
-            navigate("/dashboard");
+            navigate("/home");
 
         } else {
             const data = await res.json();

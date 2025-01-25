@@ -1,0 +1,9 @@
+.homePage{
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+}
+
+.rightBody{
+    flex: 1;
+}

@@ -39,7 +39,7 @@ function Login({showToast}) {
             });
 
             showToast(message);
-            navigate("/dashboard");
+            navigate("/home");
         } else {
             const data = await res.json();
             const errorMessage = data.message;

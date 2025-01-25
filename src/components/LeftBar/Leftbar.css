@@ -31,6 +31,8 @@
     margin-inline: 5%;
     border-radius: 15px;
     cursor: pointer;
+    text-decoration: none;
+    color: rgba(59, 60, 81, 1);
 }
 
 .dashboardTabName svg {
@@ -54,6 +56,8 @@
     align-items: center;
     gap: 5%;
     cursor: pointer;
+    text-decoration: none;
+    color: rgba(59, 60, 81, 1);
 }
 
 .dashboardSettings svg {

@@ -7,7 +7,11 @@ import Login from './pages/Auth/Login/Login';
 import Signup from './pages/Auth/Signup/Signup';
 import { useState } from 'react';
 import Toast from './components/Toast/Toast';
+import Home from './pages/Dashboard/Home/Home';
 import Dashboard from './pages/Dashboard/Dashboard/Dashboard';
+import LinkSection from './pages/Dashboard/LinkSection/LinkSection';
+import Analytics from './pages/Dashboard/Analytics/Analytics';
+import Settings from './pages/Dashboard/Settings/Settings';
 
 
 function App() {
@@ -52,7 +56,14 @@ function App() {
           <Route path='/' element={<AuthRedirect/>}/>
           <Route path='/login' element={<Login showToast={showToast} />} />
           <Route path='/signup' element={<Signup showToast={showToast} />} />
-          <Route path='/dashboard' element={<Dashboard/>} />
+
+
+          <Route path='/home' element={<Home/>}>
+            <Route index element={<Dashboard />} />
+            <Route path='/home/links' element={<LinkSection/>} />
+            <Route path='/home/analytics' element={<Analytics/>} />
+            <Route path='/home/settings' element={<Settings/>} />
+          </Route>
         </Routes>
       </BrowserRouter>
     </div>
