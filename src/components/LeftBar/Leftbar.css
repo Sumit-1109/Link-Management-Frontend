@@ -1,5 +1,5 @@
 .leftbarSection {
-    flex: 0.20;
+    width: 18.75%;
     display: flex;
     flex-direction: column;
     color: rgba(59, 60, 81, 1);
@@ -17,33 +17,63 @@
     margin-top: 17%;
     margin-bottom: 17%;
     height: 17%;
-    padding-left: 12%;
-    padding-block: 2%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
 }
 
 .dashboardTabName {
+    height: 33.33%;
+    padding-left: 7%;
     display: flex;
     align-items: center;
     gap: 5%;
+    margin-inline: 5%;
+    border-radius: 15px;
+    cursor: pointer;
 }
 
-.dashboardTabName img {
+.dashboardTabName svg {
     width: 15px;
     aspect-ratio: 1/1;
+    stroke: rgba(59, 60, 81, 1);
+}
+
+.dashboardTabName:hover svg, .dashboardTabName:hover p{
+    stroke: rgba(27, 72, 218, 1);
+    color: rgba(27, 72, 218, 1);
 }
 
 .dashboardSettings {
     margin-top: 2%;
-    padding-left: 12%;
+    padding-left: 7%;
+    margin-inline: 5%;
+    padding-block: 3.33%;
+    border-radius: 15px;
     display: flex;
     align-items: center;
     gap: 5%;
+    cursor: pointer;
 }
 
-.dashboardSettings img {
-    width: 15px;
+.dashboardSettings svg {
+    width: 16px;
     aspect-ratio: 1/1;
+    stroke: rgba(59, 60, 81, 1);
+}
+
+.dashboardSettings:hover svg, .dashboardSettings:hover p{
+    stroke: rgba(27, 72, 218, 1);
+    color: rgba(27, 72, 218, 1);
+}
+
+.selected{
+    color: rgba(27, 72, 218, 1);
+}
+.activeTab svg{
+    stroke: rgba(27, 72, 218, 1);
+}
+
+.activeTab{
+    background-color: rgb(233, 241, 251);
 }

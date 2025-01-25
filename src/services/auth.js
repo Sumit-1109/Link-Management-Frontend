@@ -19,3 +19,13 @@ export const login = (data) => {
         body: JSON.stringify(data),
     })
 };
+
+export const getUserDetails = (token) => {
+    return fetch(`${URL}/api/user`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': token
+        }
+    })
+} 

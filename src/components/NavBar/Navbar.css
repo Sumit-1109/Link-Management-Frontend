@@ -1,0 +1,128 @@
+.navbarComponent {
+    height: 11%;
+    padding-inline: 2% 6%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.navbarGreetings {
+    width: 20%;
+    display: flex;
+    justify-content: center;
+    gap: 2%;
+}
+
+.greetingsNameAndTime {
+    display: flex;
+    flex-direction: column;
+    gap: 2%;
+}
+
+.greetingsName {
+    font-family: 'Manrope';
+    font-size: 1rem;
+    font-weight: 700;
+    color: rgba(24, 24, 32, 1);
+}
+
+.greetingsTime {
+    font-family: 'Manrope';
+    font-size: 0.75rem;
+    font-weight: 400;
+    color: rgba(135, 139, 169, 1);
+}
+
+.greetingTimeImage img {
+    width: 20px;
+    aspect-ratio: 1/1;
+}
+
+.navbarRight {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 55%;
+}
+
+.createNewButton {
+    width: 26%;
+    height: 6vh;
+}
+
+.createNewButton button {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 4%;
+    background-color: rgba(27, 72, 218, 1);
+    border: none;
+    outline: none;
+    border-radius: 5px;
+    color: white;
+    font-family: Manrope;
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.25;
+}
+
+.createNewButton button img {
+    width: 12.25px;
+    aspect-ratio: 1/1;
+}
+
+.linkSearchBar {
+    width: 50%;
+    height: 6vh;
+    display: flex;
+    align-items: center;
+    padding-left: 1.5%;
+    border: 1px solid rgba(236, 236, 242, 1);
+    box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
+    border-radius: 7.5px;
+}
+
+.linkSearchBar img {
+    width: 16px;
+    aspect-ratio: 1/1;
+}
+
+.linkSearchBar input {
+    width: 100%;
+    height: 100%;
+    font-family: 'Manrope';
+    font-size: 0.85rem;
+    font-weight: 400;
+    padding-left: 2%;
+    border: none;
+    outline: none;
+    background-color: transparent;
+    border-radius: 7.5px;
+}
+
+.linkSearchBar:focus{
+    border: none;
+    outline: none;
+}
+
+.linkSearchBar input::placeholder{
+     color: rgba(135, 139, 169, 1); 
+}
+
+.greetingsInitial {
+    margin-right: 3.5%;
+    width: 7%;
+    aspect-ratio: 1/1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    background-color: rgba(253, 228, 138, 1);
+    color: rgba(146, 62, 14, 1);
+    font-family: 'Manrope';
+font-size: 0.85rem;
+font-weight: 700;
+cursor: pointer;
+}
