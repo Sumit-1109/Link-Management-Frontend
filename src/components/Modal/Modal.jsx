@@ -3,72 +3,139 @@ import "./Modal.css";
 import close from "../../assets/close.png";
 import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
-import { shorten } from "../../services/link";
+import { getLinkDetails, shorten, updateLinks } from "../../services/link";
 
-function Modal({ setShowModal }) {
-
+function Modal({
+  setShowModal,
+  editModal,
+  setEditModal,
+  deleteModal,
+  // setDeleteModal,
+  setShortURLID,
+  shortURLID,
+  setLastUpdated
+}) {
   const [isClosing, setIsClosing] = useState(false);
-  const [token, setToken] = useState('');
 
-  const [linkCreationDetails, setLinkCreationDetails] = useState({
-    originalURL: '',
-    expirationDate: '',
-    remarks: ''
-  })
+  const [linkInputDetails, setLinkInputDetails] = useState({
+    originalURL: "",
+    expirationDate: "",
+    remarks: "",
+  });
 
-  useEffect(() => {
-    setToken(localStorage.getItem('token'));
-  }, []);
 
   const [fieldErrors, setFieldErrors] = useState({});
 
   const handleChange = (e) => {
-    setLinkCreationDetails({
-      ...linkCreationDetails,
-      [e.target.id] : e.target.value
+    setLinkInputDetails({
+      ...linkInputDetails,
+      [e.target.id]: e.target.value,
     });
 
     setFieldErrors({
       ...fieldErrors,
-      [e.target.id] : ''
-    })
+      [e.target.id]: "",
+    });
   };
 
 
-    const handleSubmit = async (e) =>{
-
-      e.preventDefault();
+  const fetchLinkDetails = async (shortURLID, token) => {
 
       try{
-        const res = await shorten(linkCreationDetails, token);
+        const res = await getLinkDetails(shortURLID, token);
         const data = await res.json();
-
-        if(res.status === 201) {
-          const message = data.message;
-          console.log(message);
-
-          setLinkCreationDetails({
-            originalURL: '',
-            expirationDate: '',
-            remarks: ''
-          });
-
-          setShowModal(false);
-          setIsClosing(true);
-
-        } else {
-          const {field, message} = data;
-          setFieldErrors((prev) => ({
-            ...prev,
-            [field]: message
-          }));
-        }
-
-      } catch(err){
-        console.error(err);
+        const linkDetails = data.linkDetails;
+        console.log(linkDetails);
+        console.log(data);
+        setLinkInputDetails({
+          originalURL: linkDetails.originalURL,
+          remarks: linkDetails.remarks,
+          expirationDate: linkDetails.expirationDate
+        })
+      } catch (err) {
+        console.log(err);
       }
-    }
+  }
 
+  useEffect(() => {
+
+    const token = localStorage.getItem("token");
+
+    console.log(shortURLID);
+
+    if(editModal && shortURLID && token) {
+      fetchLinkDetails(shortURLID, token);
+    };
+
+  }, []);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const token = localStorage.getItem("token");
+      const res = await shorten(linkInputDetails, token);
+      const data = await res.json();
+
+      if (res.status === 201) {
+        const message = data.message;
+        console.log(message);
+
+        setLinkInputDetails({
+          originalURL: "",
+          expirationDate: "",
+          remarks: "",
+        });
+
+        setLastUpdated(Date.now());
+        setIsClosing(true);
+        setShowModal(false);
+      } else {
+        const { field, message } = data;
+        setFieldErrors((prev) => ({
+          ...prev,
+          [field]: message,
+        }));
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const handleEdit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const token = localStorage.getItem("token");
+      const res = await updateLinks(shortURLID, linkInputDetails, token);
+      const data = await res.json();
+
+      if (res.status === 200) {
+        const message = data.message;
+        console.log(message);
+
+        setLinkInputDetails({
+          originalURL: "",
+          expirationDate: "",
+          remarks: "",
+        });
+
+        setIsClosing(true);
+        setEditModal(false);
+        setShortURLID('');
+        setLastUpdated(Date.now());
+        setShowModal(false);
+      } else {
+        const { field, message } = data;
+        setFieldErrors((prev) => ({
+          ...prev,
+          [field]: message,
+        }));
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   const handleCloseModal = () => {
     setIsClosing(true);
@@ -78,11 +145,18 @@ function Modal({ setShowModal }) {
   };
 
   return (
-    <div className={`modalContainer ${isClosing ? "slideOut" : ""}`}>
+    <>
+      {deleteModal 
+      ?
+      <div>
+
+      </div>
+      :
+      <div className={`modalContainer ${isClosing ? "slideOut" : ""}`}>
       <div className={`modalBox ${isClosing ? "slideOut" : ""}`}>
-        <form onSubmit={handleSubmit} className="modalForm">
+        <form onSubmit={editModal ? handleEdit : handleSubmit} className="modalForm">
           <div className="modalHeader">
-            <p>New Link</p>
+            <p>{editModal ? "Edit" : "New"} Link</p>
             <img onClick={handleCloseModal} src={close} alt="cross" />
           </div>
 
@@ -91,15 +165,16 @@ function Modal({ setShowModal }) {
               <p>
                 Destination Url <span>*</span>
               </p>
-              <div className="urlInputBox">
-              <input
-                type="text"
-                placeholder="https://web.abc.com/"
-                name="destination"
-                id="originalURL"
-                value={linkCreationDetails.originalURL}
-                onChange={handleChange}
-              />
+              <div className={`urlInputBox ${editModal ? "readOnly-originalURL-input-modal" : ''} `}>
+                <input
+                  type="text"
+                  placeholder="https://web.abc.com/"
+                  name="destination"
+                  id="originalURL"
+                  value={linkInputDetails.originalURL}
+                  onChange={handleChange}
+                  readOnly={editModal}
+                />
               </div>
               <div className="modalerror">
                 <p>Invalid URL</p>
@@ -107,12 +182,14 @@ function Modal({ setShowModal }) {
             </div>
 
             <div className="urlRemarks">
-              <p>Remarks <span>*</span></p>
+              <p>
+                Remarks <span>*</span>
+              </p>
               <textarea
                 name="remarks"
                 id="remarks"
                 placeholder="Add remarks"
-                value={linkCreationDetails.remarks}
+                value={linkInputDetails.remarks}
                 onChange={handleChange}
               ></textarea>
               <div className="modalerror">
@@ -123,13 +200,17 @@ function Modal({ setShowModal }) {
             <div className="linkExpiration">
               <div className="linkExpirationTitle">
                 <p>Link Expiration</p>
-                  <label className="switch">
-                    <input type="checkbox" />
-                    <span className="slider round"></span>
-                  </label>
-                
+                <label className="switch">
+                  <input type="checkbox" />
+                  <span className="slider round"></span>
+                </label>
               </div>
-              <input type="date" id="expirationDate" value={linkCreationDetails.expirationDate} onChange={handleChange} />
+              <input
+                type="date"
+                id="expirationDate"
+                value={linkInputDetails.expirationDate}
+                onChange={handleChange}
+              />
             </div>
           </div>
 
@@ -139,17 +220,29 @@ function Modal({ setShowModal }) {
             </div>
 
             <div className="modalFooterButton">
-              <button type="submit" className="modalCreateNewButton">Create new</button>
+              <button type="submit" className="modalCreateNewButton">
+                {editModal ? "Save" : "Create new"}
+              </button>
             </div>
           </div>
         </form>
       </div>
     </div>
+      }
+    </>
   );
 }
 
 export default Modal;
 
 Modal.propTypes = {
-  setShowModal: PropTypes.func.isRequired,
+  setShowModal: PropTypes.func,
+  showModal: PropTypes.bool,
+  editModal: PropTypes.bool,
+  setEditModal: PropTypes.func,
+  deleteModal: PropTypes.bool,
+  setDeleteModal: PropTypes.func,
+  shortURLID: PropTypes.string,
+  setShortURLID: PropTypes.func,
+  setLastUpdated: PropTypes.number
 };

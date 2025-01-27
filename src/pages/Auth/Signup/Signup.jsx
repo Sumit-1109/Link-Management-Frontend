@@ -103,7 +103,7 @@ function Signup({showToast}) {
 
             <div className="mobileInput">
               <input
-                type="number"
+                type="text"
                 id="mobile"
                 placeholder="Mobile"
                 value={signupDetails.mobile}

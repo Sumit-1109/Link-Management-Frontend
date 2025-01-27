@@ -238,3 +238,9 @@ color: rgba(255, 1, 1, 1);
     width: 100%;
     height: 20%;
   }
+
+  .readOnly-originalURL-input-modal{
+    background-color: #f1f1f1;
+    border: 1px solid #ccc;
+    cursor: not-allowed;
+  }

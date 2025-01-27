@@ -1,16 +1,273 @@
-import './LinkSection'
-// import { useLocation } from 'react-router-dom';
+import { useEffect, useState } from "react";
+import "./LinkSection.css";
+import { getLinks } from "../../../services/link";
 
-function LinkSection() {
+import editIcon from "../../../assets/edit.png";
+import deleteIcon from "../../../assets/delete.png";
+import copyIcon from "../../../assets/copy.png";
+import sortUp from "../../../assets/up.png";
+import sortDown from "../../../assets/down.png";
+import PropTypes from "prop-types";
 
-  // const location = useLocation();
-  // const setEditModal = location.state?.setEditModal;
+function LinkSection({
+  setShowModal,
+  setEditModal,
+  setDeleteModal,
+  setShortURLID,
+  lastUpdated
+}) {
+  const [links, setLinks] = useState([]);
+  const [sortConfig, setSortConfig] = useState({
+    sortBy: "createdAt",
+    order: "asc",
+  });
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(0);
+  const [loading, setLoading] = useState(false);
+
+  const fetchLinks = async (page, sortConfig) => {
+    setLoading(true);
+    try {
+      const token = localStorage.getItem("token");
+      const res = await getLinks(sortConfig, page, token);
+      console.log("req", sortConfig);
+      const data = await res.json();
+
+      if (res.status === 200) {
+        setLinks(data.links);
+        setTotalPages(data.totalPages);
+      }
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+
+  useEffect(() => {
+    setCurrentPage(1);
+    fetchLinks(currentPage, sortConfig);
+  }, [sortConfig, lastUpdated]);
+
+  useEffect(() =>{
+    fetchLinks(currentPage, sortConfig);
+  }, [currentPage]);
+
+  useEffect(() => {
+    setCurrentPage(1);
+    fetchLinks(currentPage, sortConfig);
+  }, []);
+
+  const toggleSort = (field) => {
+    setSortConfig((prev) => ({
+      sortBy: field,
+      order: prev.sortBy === field && prev.order === "asc" ? "desc" : "asc",
+    }));
+    setCurrentPage(1);
+  };
+
+  const handleEdit = (id) => {
+    setCurrentPage(1);
+    setShowModal(true);
+    setEditModal(true);
+    setShortURLID(id);
+  };
+
+  const handleDelete = (e, id) => {
+    e.preventDefault();
+    setCurrentPage(1);
+    setShortURLID(id);
+    setDeleteModal(true);
+    setShowModal(true);
+  };
+
+  const copyLinkToClipboard = async (shortURL) => {
+    try {
+      await navigator.clipboard.writeText(shortURL);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
-    <div>
-      Link
+    <div className="linksPage-tableContainer">
+      {loading ? (
+        <p>Loading...</p>
+      ) : (
+        <div className="InnerTableContainer">
+          <div className="table-wrapper">
+            <table className="linksPage-table">
+              <thead className="linksPage-table-headings">
+                <tr>
+                  <th className="border date-column date-column-heading">
+                    <div className="date-heading">
+                      <p>Date</p>
+                    </div>
+                    <div className="dateSortButtons-container">
+                      <div className="dateSortButtons">
+                        <img
+                          src={sortUp}
+                          alt=""
+                          className={`${
+                            sortConfig.sortBy === "createdAt" &&
+                            (sortConfig.order === "asc" ? "dateSortActive" : "")
+                          }`}
+                          onClick={() => toggleSort("createdAt")}
+                        />
+                      </div>
+                      <div className="dateSortButtons">
+                        <img
+                          src={sortDown}
+                          alt=""
+                          className={`${
+                            sortConfig.sortBy === "createdAt" &&
+                            (sortConfig.order === "desc"
+                              ? "dateSortActive"
+                              : "")
+                          }`}
+                          onClick={() => toggleSort("createdAt")}
+                        />
+                      </div>
+                    </div>
+                  </th>
+                  <th className="border url-column">Original URL</th>
+                  <th className="border url-column">Short URL</th>
+                  <th className="border remarks-column">Remarks</th>
+                  <th className="border colon-column">:</th>
+                  <th className="border narrow-column">Clicks</th>
+                  <th className="border narrow-column status-row-heading"><div className="status-heading">
+                      <p>Status</p>
+                    </div>
+                    <div className="statusSortButtons-container">
+                      <div className="statusSortButtons">
+                        <img
+                          src={sortUp}
+                          alt=""
+                          className={`${
+                            sortConfig.sortBy === "status" &&
+                            (sortConfig.order === "asc" ? "statusSortActive" : "")
+                          }`}
+                          onClick={() => toggleSort("status")}
+                        />
+                      </div>
+                      <div className="dateSortButtons">
+                        <img
+                          src={sortDown}
+                          alt=""
+                          className={`${
+                            sortConfig.sortBy === "status" &&
+                            (sortConfig.order === "desc"
+                              ? "statusSortActive"
+                              : "")
+                          }`}
+                          onClick={() => toggleSort("status")}
+                        />
+                      </div>
+                    </div></th>
+                  <th className="border narrow-column">Actions</th>
+                </tr>
+              </thead>
+              <tbody className="linksPage-table-body">
+                {links.map((link, index) => (
+                  <tr key={index}>
+                    <td className="border date-column">{link.createdAt}</td>
+                    <td className="border linksPage-scrolling-cell url-column">
+                      <div className="marquee">
+                        <div>
+                          <span>{link.originalURL}</span>
+                          <span>{link.originalURL}</span>
+                        </div>
+                      </div>
+                    </td>
+                    <td className="border linksPage-scrolling-cell url-column short-url">
+                      <div className="marquee">
+                        <div>
+                          <span>
+                            <a
+                              href={link.shortURL}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              {link.shortURL}
+                            </a>
+                          </span>
+                          <span>
+                            <a
+                              href={link.shortURL}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              {link.shortURL}
+                            </a>
+                          </span>
+                        </div>
+                      </div>
+                      <img
+                        className="shortURL-copy-button"
+                        onClick={() => copyLinkToClipboard(link.shortURL)}
+                        src={copyIcon}
+                        alt="copy"
+                      />
+                    </td>
+                    <td className="border remarks-column">{link.remarks}</td>
+                    <td className="border colon-column">:</td>
+                    <td className="border narrow-column">{link.clicks}</td>
+                    <td
+                      className={`border narrow-column ${
+                        link.status === "Active" ? "green" : "red"
+                      }`}
+                    >
+                      {link.status}
+                    </td>
+                    <td className="border linksPage-actions-cell narrow-column">
+                      <button
+                        onClick={() => handleEdit(link.id)}
+                        className="linksPage-edit-btn"
+                      >
+                        <img src={editIcon} alt="Edit" />
+                      </button>
+                      <button
+                        onClick={() => handleDelete(link.id)}
+                        className="linksPage-delete-btn"
+                      >
+                        <img src={deleteIcon} alt="Delete" />
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
+
+      {totalPages > 1 && (
+        <div className="pagination">
+          {Array.from({ length: totalPages }, (_, i) => (
+            <button
+              key={i + 1}
+              className={`page-btn ${currentPage === i + 1 ? "active" : ""}`}
+              onClick={() => setCurrentPage(i + 1)}
+            >
+              {i + 1}
+            </button>
+          ))}
+        </div>
+      )}
     </div>
-  )
+  );
 }
 
-export default LinkSection
+export default LinkSection;
+
+LinkSection.propTypes = {
+  setShowModal: PropTypes.func,
+  showModal: PropTypes.bool,
+  editModal: PropTypes.bool,
+  setEditModal: PropTypes.func,
+  deleteModal: PropTypes.bool,
+  setDeleteModal: PropTypes.func,
+  setShortURLID: PropTypes.func,
+  lastUpdated :PropTypes.number,
+};

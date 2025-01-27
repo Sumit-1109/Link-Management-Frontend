@@ -8,9 +8,8 @@
 }
 
 .navbarGreetings {
-    width: 20%;
+    flex: 1;
     display: flex;
-    justify-content: center;
     gap: 2%;
 }
 

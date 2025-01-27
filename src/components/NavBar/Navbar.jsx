@@ -38,6 +38,7 @@ function Navbar({setShowModal}) {
 
           } else {
             console.log("Something is wrong with the universe !!");
+            navigate('/login');
           }
         } catch (err) {
           console.log(err);

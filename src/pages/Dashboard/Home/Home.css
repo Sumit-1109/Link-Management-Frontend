@@ -6,4 +6,11 @@
 
 .rightBody{
     flex: 1;
+    display: flex;
+    flex-direction: column;
 }
+
+.homeBody{
+    flex: 1;
+}
+
