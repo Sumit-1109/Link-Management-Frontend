@@ -1,5 +1,5 @@
-// const URL = 'https://link-management-backend.onrender.com';
-const URL = 'http://localhost:8000';
+const URL = 'https://link-management-backend.onrender.com';
+// const URL = 'http://localhost:8000';
 
 export const shorten = (data, token) => {
     return fetch(`${URL}/api/links/create`, {
