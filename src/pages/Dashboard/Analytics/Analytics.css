@@ -1,0 +1,147 @@
+.analyticsPage-tableContainer {
+    width: 100%;
+    height: 100%;
+    background-color: #F1F1F1;
+    padding-block: 2% 2%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.analytics-table-wrapper{
+    overflow-y: auto;
+    max-height: 100%;
+}
+
+.analytics-InnerTableContainer{
+    height: 100%;
+    margin: 0 2% 0 2%;    
+    background-color: rgba(243, 247, 253, 1);
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.04);
+    overflow-y: auto;
+    max-height: 100%;
+}
+
+.analyticsPage-table {
+    width: 100%;
+    border-collapse: collapse;
+    padding: 2%;
+    table-layout: fixed;
+    text-align: center;
+    position: relative;
+}
+
+.analytics-table-wrapper::-webkit-scrollbar {
+    width: 2px;
+}
+
+.analytics-table-wrapper::-webkit-scrollbar-thumb {
+    background: #007bff;
+    border-radius: 4px;
+}
+
+.analytics-table-wrapper::-webkit-scrollbar-thumb:hover {
+    background: #0056b3;
+}
+
+.analyticsPage-table-headings{
+    font-family: 'Manrope';
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.analyticsPage-table-headings th {
+    padding-block: 20px 10px;
+}
+
+.analyticsPage-table-body{
+    font-family: 'Manrope';
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+.analyticsPage-table-body td{
+    padding-block: 8.75px;
+}
+
+.analyticsTable-date-column{
+    width: 100%;
+}
+
+.analyticsTable-url-column{
+    padding-inline: 0.5%;
+}
+
+.analyticsTable-ip-column {
+    width: 20%;
+}
+
+.analyticsTable-browser-column{
+    width: 15%;
+}
+
+.analyticsTable-border{
+    line-height: 1;
+}
+
+.analytics-pagination{
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.analytics-page-page-btn {
+    padding: 8px 12px;
+    margin: 0 5px;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  
+  .analytics-page-page-btn.analytics-page-active {
+    background-color: #0056b3;
+  }
+
+  .analyticsTable-date-column-heading{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20%;
+  }
+
+  .timestampSortButtons{
+    width: 8px;
+    aspect-ratio: 1/1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+  }
+
+.analyticsTable-timeSortButtons-container img{
+    width: 8px;
+    aspect-ratio: 1/1;
+    opacity: 0.5;
+}
+
+.timestampSortButtons img:hover{
+    opacity: 0.85;
+}
+
+.timestampSortActive{
+    opacity: 1;
+}
+
+.analyticsTable-url-column a{
+    display: inline-block;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    vertical-align: middle;
+    cursor: pointer;
+    position: relative;
+}

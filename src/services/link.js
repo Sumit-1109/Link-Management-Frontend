@@ -33,6 +33,17 @@ export const getLinks = (sortConfig, page, token) => {
     })
 }
 
+export const getLinkAnalytics = (sortConfig, page, token) => {
+    return fetch(`${URL}/api/links/analytics?sortBy=${sortConfig.sortBy}&order=${sortConfig.order}&page=${page}&limit=10`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': token
+        },
+    })
+}
+
+
 export const updateLinks = (id, data, token) => {
     return fetch(`${URL}/api/links/edit/${id}`, {
         method: 'PUT',

@@ -52,7 +52,7 @@ export const modifyUserDetails = (data, token) => {
     });
 }
 
-export const deleteUser = (token) => {
+export const deleteUserDetails = (token) => {
     return fetch(`${URL}/api/user/delete`, {
         method: 'DELETE',
         headers: {

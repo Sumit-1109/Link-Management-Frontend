@@ -11,6 +11,8 @@ import {
 } from "../../services/link";
 import dayjs from "dayjs";
 import calenderIcon from "../../assets/calendar.png";
+import { deleteUserDetails } from "../../services/auth";
+import { useNavigate } from "react-router-dom";
 
 function Modal({
   setShowModal,
@@ -28,6 +30,8 @@ function Modal({
 
   const modalRef = useRef(null);
   const expirationInputRef = useRef(null);
+
+  const navigate = useNavigate();
 
   const [linkInputDetails, setLinkInputDetails] = useState({
     originalURL: "",
@@ -210,12 +214,13 @@ function Modal({
       if (res.status === 200) {
         const message = data.message;
         console.log(message);
-
+        localStorage.removeItem('token');
         setShortURLID("");
         setDeleteModal(false);
         setLastUpdated(Date.now());
         setIsClosing(true);
         setShowModal(false);
+        navigate('/login');
       }
     } catch (err) {
       console.log(err);
@@ -244,16 +249,17 @@ function Modal({
     const token = localStorage.getItem('token');
 
     try{
-      const res = await deleteUser(token);
+      const res = await deleteUserDetails(token);
       const data = await res.json();
 
       if(res.status === 200) {
         console.log(data.message);
-
         setDeleteModal(false);
         setIsClosing(true);
         setShowModal(false);
         setDeleteUser(false);
+
+        
       } else {
         console.log(data.message);
       }
