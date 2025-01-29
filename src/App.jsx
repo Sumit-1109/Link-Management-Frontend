@@ -12,6 +12,7 @@ import Dashboard from "./pages/Dashboard/Dashboard/Dashboard";
 import LinkSection from "./pages/Dashboard/LinkSection/LinkSection";
 import Analytics from "./pages/Dashboard/Analytics/Analytics";
 import Settings from "./pages/Dashboard/Settings/Settings";
+import PrivateRoute from "./context/PrivateRoute";
 
 function App() {
   const [toast, setToast] = useState({
@@ -19,11 +20,13 @@ function App() {
     message: "",
   });
 
+
   const [showModal, setShowModal] = useState(false);
   const [editModal, setEditModal] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
   const [shortURLID, setShortURLID] = useState("");
   const [lastUpdated, setLastUpdated] = useState(Date.now());
+  const [deleteUser, setDeleteUser] = useState(false);
 
   const showToast = (message) => {
     setToast({
@@ -47,52 +50,68 @@ function App() {
   };
 
   return (
-    <div>
-      <BrowserRouter>
-        {toast.show && <Toast message={toast.message} onClose={hideToast} />}
+        <BrowserRouter>
+          {toast.show && <Toast message={toast.message} onClose={hideToast} />}
 
-        <Routes>
-          <Route path="/" element={<AuthRedirect />} />
-          <Route path="/login" element={<Login showToast={showToast} />} />
-          <Route path="/signup" element={<Signup showToast={showToast} />} />
+          <Routes>
+            <Route path="/" element={<AuthRedirect />} />
+            <Route path="/login" element={<Login showToast={showToast} />} />
+            <Route path="/signup" element={<Signup showToast={showToast} />} />
 
-          <Route
-            path="/home"
-            element={
-              <Home
-                setShowModal={setShowModal}
-                showModal={showModal}
-                editModal={editModal}
-                setEditModal={setEditModal}
-                deleteModal={deleteModal}
-                setDeleteModal={setDeleteModal}
-                shortURLID={shortURLID}
-                setShortURLID={setShortURLID}
-                setLastUpdated={setLastUpdated}
-              />
-            }
-          >
-            <Route index element={<Dashboard />} />
             <Route
-              path="/home/links"
+              path="/home"
               element={
-                <LinkSection
-                  setShowModal={setShowModal}
-                  setEditModal={setEditModal}
-                  editModal={editModal}
-                  deleteModal={deleteModal}
-                  setDeleteModal={setDeleteModal}
-                  setShortURLID={setShortURLID}
-                  lastUpdated = {lastUpdated}
-                />
+                <PrivateRoute>
+                  <Home
+                    setShowModal={setShowModal}
+                    showModal={showModal}
+                    editModal={editModal}
+                    setEditModal={setEditModal}
+                    deleteModal={deleteModal}
+                    setDeleteModal={setDeleteModal}
+                    shortURLID={shortURLID}
+                    setShortURLID={setShortURLID}
+                    setLastUpdated={setLastUpdated}
+                    deleteUser={deleteUser}
+                    setDeleteUser={setDeleteUser}
+                  />
+                </PrivateRoute>
               }
-            />
-            <Route path="/home/analytics" element={<Analytics />} />
-            <Route path="/home/settings" element={<Settings />} />
-          </Route>
-        </Routes>
-      </BrowserRouter>
-    </div>
+            >
+              <Route index element={<Dashboard />} />
+              <Route
+                path="/home/links"
+                element={
+                    <LinkSection
+                      setShowModal={setShowModal}
+                      setEditModal={setEditModal}
+                      editModal={editModal}
+                      deleteModal={deleteModal}
+                      setDeleteModal={setDeleteModal}
+                      setShortURLID={setShortURLID}
+                      lastUpdated={lastUpdated}
+                    />
+                }
+              />
+              <Route
+                path="/home/analytics"
+                element={
+                    <Analytics />
+                }
+              />
+              <Route
+                path="/home/settings"
+                element={
+                    <Settings
+                      setDeleteModal={setDeleteModal}
+                      setShowModal={setShowModal}
+                      setDeleteUser={setDeleteUser}
+                    />
+                }
+              />
+            </Route>
+          </Routes>
+        </BrowserRouter>
   );
 }
 

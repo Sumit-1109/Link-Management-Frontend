@@ -9,7 +9,7 @@ import eveningImg from "../../assets/evening.png";
 import nightImg from "../../assets/night.png";
 import create from '../../assets/create.png';
 import search from '../../assets/search.png';
-import { getUserDetails } from "../../services/auth";
+import { getUserName } from "../../services/auth";
 import PropTypes from "prop-types";
 
 function Navbar({setShowModal}) {
@@ -23,19 +23,18 @@ function Navbar({setShowModal}) {
   const [showLogout, setShowLogout] = useState(false);
 
   useEffect(() => {
+
     const token = localStorage.getItem("token");
 
     if (token) {
       const getName = async () => {
         try {
-          const res = await getUserDetails(token);
+          const res = await getUserName(token);
           const data = await res.json();
 
           if (res.status === 200) {
-
             setFirstName(data.firstName);
             setInitials(data.initials);
-
           } else {
             console.log("Something is wrong with the universe !!");
             navigate('/login');
@@ -149,5 +148,5 @@ function Navbar({setShowModal}) {
 export default Navbar;
 
 Navbar.propTypes = {
-  setShowModal : PropTypes.func
+  setShowModal : PropTypes.func,
 }

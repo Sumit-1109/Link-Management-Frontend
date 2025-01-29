@@ -29,6 +29,7 @@
     padding: 2%;
     table-layout: fixed;
     text-align: center;
+    position: relative;
 }
 
 .table-wrapper::-webkit-scrollbar {
@@ -88,46 +89,6 @@
 
 .border{
     line-height: 1;
-}
-
-.linksPage-scrolling-cell {
-    position: relative;
-    overflow: hidden;
-    white-space: nowrap;
-}
-
-.marquee {
-    height: 25px;
-    width: 100%;
-    overflow: hidden;
-    position: relative;
-
-}
-
-.marquee div {
-    display: block;
-    width: 200%;
-    height: 100%;
-    position: absolute;
-    overflow: hidden;
-    animation: marquee 5s linear infinite;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.marquee span {
-    float: left;
-    width: 50%;
-}
-
-@keyframes marquee {
-    0% { left: 0; }
-    100% { left: -100%; }
-}
-
-.linksPage-scrolling-cell:hover .marquee div {
-    animation-play-state: paused;
 }
 
 .linksPage-actions-cell {
@@ -249,10 +210,22 @@
 .shortURL-copy-button{
     width: 16px;
     height: 16px;
+    cursor: pointer;
 }
 
 .short-url{
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.url-column span{
+    display: inline-block;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    vertical-align: middle;
+    cursor: pointer;
+    position: relative;
 }

@@ -5,7 +5,7 @@ import Navbar from "../../../components/NavBar/Navbar";
 import { Outlet, useNavigate } from "react-router-dom";
 import Modal from "../../../components/Modal/Modal";
 import PropTypes from "prop-types";
-import { useEffect} from "react";
+import { useEffect } from "react";
 
 function Home({
   setShowModal,
@@ -16,14 +16,14 @@ function Home({
   setDeleteModal,
   shortURLID,
   setShortURLID,
-  setLastUpdated
+  setLastUpdated,
+  setDeleteUser,
+  deleteUser
 }) {
   const navigate = useNavigate();
 
-
   useEffect(() => {
-
-    const token = (localStorage.getItem("token"));
+    const token = localStorage.getItem("token");
 
     if (!token) {
       navigate("/login");
@@ -51,7 +51,9 @@ function Home({
           setDeleteModal={setDeleteModal}
           shortURLID={shortURLID}
           setShortURLID={setShortURLID}
-          setLastUpdated = {setLastUpdated}
+          setLastUpdated={setLastUpdated}
+          deleteUser={deleteUser}
+          setDeleteUser={setDeleteUser}
         />
       )}
     </div>
@@ -69,5 +71,7 @@ Home.propTypes = {
   setDeleteModal: PropTypes.func,
   shortURLID: PropTypes.string,
   setShortURLID: PropTypes.func,
-  setLastUpdated :PropTypes.func
+  setLastUpdated: PropTypes.func,
+  deleteUser: PropTypes.bool,
+  setDeleteUser: PropTypes.func
 };

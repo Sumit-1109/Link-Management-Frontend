@@ -67,7 +67,8 @@ function LinkSection({
     setCurrentPage(1);
   };
 
-  const handleEdit = (id) => {
+  const handleEdit = (e,id) => {
+    e.preventDefault();
     setCurrentPage(1);
     setShowModal(true);
     setEditModal(true);
@@ -134,7 +135,6 @@ function LinkSection({
                   <th className="border url-column">Original URL</th>
                   <th className="border url-column">Short URL</th>
                   <th className="border remarks-column">Remarks</th>
-                  <th className="border colon-column">:</th>
                   <th className="border narrow-column">Clicks</th>
                   <th className="border narrow-column status-row-heading"><div className="status-heading">
                       <p>Status</p>
@@ -172,18 +172,13 @@ function LinkSection({
                 {links.map((link, index) => (
                   <tr key={index}>
                     <td className="border date-column">{link.createdAt}</td>
-                    <td className="border linksPage-scrolling-cell url-column">
-                      <div className="marquee">
-                        <div>
-                          <span>{link.originalURL}</span>
-                          <span>{link.originalURL}</span>
-                        </div>
-                      </div>
+                    <td className="border url-column">
+                      
+                          <span data-full-url={link.originalURL}>{link.originalURL}</span>
+                        
                     </td>
-                    <td className="border linksPage-scrolling-cell url-column short-url">
-                      <div className="marquee">
-                        <div>
-                          <span>
+                    <td className="border url-column short-url">
+                          <span data-full-url={link.shortURL}>
                             <a
                               href={link.shortURL}
                               target="_blank"
@@ -192,17 +187,7 @@ function LinkSection({
                               {link.shortURL}
                             </a>
                           </span>
-                          <span>
-                            <a
-                              href={link.shortURL}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                            >
-                              {link.shortURL}
-                            </a>
-                          </span>
-                        </div>
-                      </div>
+
                       <img
                         className="shortURL-copy-button"
                         onClick={() => copyLinkToClipboard(link.shortURL)}
@@ -211,7 +196,6 @@ function LinkSection({
                       />
                     </td>
                     <td className="border remarks-column">{link.remarks}</td>
-                    <td className="border colon-column">:</td>
                     <td className="border narrow-column">{link.clicks}</td>
                     <td
                       className={`border narrow-column ${
@@ -222,13 +206,13 @@ function LinkSection({
                     </td>
                     <td className="border linksPage-actions-cell narrow-column">
                       <button
-                        onClick={() => handleEdit(link.id)}
+                        onClick={(e) => handleEdit(e, link.id)}
                         className="linksPage-edit-btn"
                       >
                         <img src={editIcon} alt="Edit" />
                       </button>
                       <button
-                        onClick={() => handleDelete(link.id)}
+                        onClick={(e) => handleDelete(e, link.id)}
                         className="linksPage-delete-btn"
                       >
                         <img src={deleteIcon} alt="Delete" />
