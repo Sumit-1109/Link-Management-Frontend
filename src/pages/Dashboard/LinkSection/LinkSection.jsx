@@ -30,6 +30,7 @@ function LinkSection({
   const isFirstRender = useRef(true);
 
   const fetchLinks = async (page, sortConfig) => {
+    console.log("fetch Links");
     setLoading(true);
     try {
       const token = localStorage.getItem("token");
