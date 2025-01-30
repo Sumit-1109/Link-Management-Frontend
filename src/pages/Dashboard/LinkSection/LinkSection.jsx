@@ -8,6 +8,7 @@ import copyIcon from "../../../assets/copy.png";
 import sortUp from "../../../assets/up.png";
 import sortDown from "../../../assets/down.png";
 import PropTypes from "prop-types";
+import { useNavigate } from "react-router-dom";
 
 function LinkSection({
   setShowModal,
@@ -18,6 +19,8 @@ function LinkSection({
   searchQuery,
   showToast
 }) {
+
+  const navigate = useNavigate();
   const [links, setLinks] = useState([]);
   const [sortConfig, setSortConfig] = useState({
     sortBy: "createdAt",
@@ -30,10 +33,14 @@ function LinkSection({
   const isFirstRender = useRef(true);
 
   const fetchLinks = async (page, sortConfig) => {
-    console.log("fetch Links");
     setLoading(true);
     try {
       const token = localStorage.getItem("token");
+
+      if (!token) {
+        showToast('Please Login');
+        navigate('/login');
+      }
       const res = await getLinks(sortConfig, searchQuery ,page, token);
       const data = await res.json();
 
@@ -59,8 +66,22 @@ function LinkSection({
       isFirstRender.current = false;
       return
     } 
+    
+    const fetchData = async () => {
+      await fetchLinks(currentPage, sortConfig);
+    };
+
+    fetchData();
+
+  }, [sortConfig, lastUpdated, searchQuery, currentPage]);
+
+  useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+    } 
     fetchLinks(currentPage, sortConfig);
-  }, [sortConfig, lastUpdated, searchQuery, currentPage])
+  }, []);
+  
 
 
   const toggleSort = (field) => {
