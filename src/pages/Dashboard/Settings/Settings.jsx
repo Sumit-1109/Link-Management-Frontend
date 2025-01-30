@@ -92,6 +92,7 @@ function Settings({
     setDeleteModal(true);
     setShowModal(true);
     setDeleteUser(true);
+    localStorage.removeItem('token');
   };
 
   return (

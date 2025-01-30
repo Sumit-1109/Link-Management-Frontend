@@ -1,5 +1,4 @@
-// const URL = 'https://link-management-backend.onrender.com';
-const URL = 'http://localhost:8000';
+const URL = import.meta.env.VITE_BACKEND_URL;
 
 export const shorten = (data, token) => {
     return fetch(`${URL}/api/links/create`, {

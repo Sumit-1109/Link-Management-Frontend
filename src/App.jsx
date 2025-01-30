@@ -87,7 +87,7 @@ function App() {
                 </PrivateRoute>
               }
             >
-              <Route index element={<Dashboard />} />
+              <Route index element={<Dashboard showToast={showToast} />} />
               <Route
                 path="/home/links"
                 element={

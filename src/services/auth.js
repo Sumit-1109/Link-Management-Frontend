@@ -1,5 +1,4 @@
-// const URL = 'https://link-management-backend.onrender.com';
-const URL = 'http://localhost:8000';
+const URL = import.meta.env.VITE_BACKEND_URL;
 
 export const signup = (data) => {
     return fetch(`${URL}/api/user/signup`, {

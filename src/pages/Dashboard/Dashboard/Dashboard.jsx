@@ -12,12 +12,14 @@ import {
 } from "chart.js";
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { getDashboardLinkDetails } from "../../../services/link";
+import PropTypes from 'prop-types';
 
 ChartJS.register(BarElement, CategoryScale, LinearScale, Title, Tooltip, Legend, ChartDataLabels);
 
 const token = localStorage.getItem("token");
 
-const Dashboard = () => {
+const Dashboard = ({showToast}) => {
+
   const [totalClicks, setTotalClicks] = useState(0);
   const [dateLabels, setDateLabels] = useState([]);
   const [dateClicks, setDateClicks] = useState([]);
@@ -27,10 +29,12 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await getDashboardLinkDetails(token);
-        const data = await response.json();
+        const res = await getDashboardLinkDetails(token);
+        
 
-        if (response.ok) {
+        if (res.status === 200) {
+          const data = await res.json();
+
           setTotalClicks(data.totalClicks);
 
 
@@ -40,8 +44,10 @@ const Dashboard = () => {
 
           setDeviceLabels(Object.keys(data.deviceAnalytics));
           setDeviceClicks(Object.values(data.deviceAnalytics));
+
         } else {
-          console.error(data.message || "Failed to fetch analytics");
+          const data = await res.json();
+          showToast(data.message)
         }
       } catch (error) {
         console.error("Error fetching analytics:", error);
@@ -139,3 +145,7 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
+
+Dashboard.propTypes = {
+  showToast: PropTypes.func,
+}
