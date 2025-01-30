@@ -67,14 +67,13 @@ function Analytics() {
                       <p>Timestamp</p>
                     </div>
                     <div className="analyticsTable-timeSortButtons-container">
-                       <div className="timestampSortButtons">
+                       <div className={` timestampSortButtons ${
+                                                  sortConfig.sortBy === "timestamp" &&
+                                                  (sortConfig.order === "asc" ? "timestampSortActive" : "")
+                                                }`}>
                                               <img
                                                 src={sortUp}
                                                 alt=""
-                                                className={`${
-                                                  sortConfig.sortBy === "createdAt" &&
-                                                  (sortConfig.order === "asc" ? "timestampSortActive" : "")
-                                                }`}
                                                 onClick={() => toggleSort("timestamp")}
                                               />
                                             </div>
@@ -105,7 +104,7 @@ function Analytics() {
                     <td className="analyticsTable-border analyticsTable-date-column">{entry.timestamp}</td>
                     <td className="analyticsTable-border analyticsTable-url-column">{entry.originalURL}</td>
                     <td className="analyticsTable-border analyticsTable-url-column">
-                      <a href={entry.shortURL} target="_blank" rel="noopener noreferrer">
+                      <a className="url-column-aTag" href={entry.shortURL} target="_blank" rel="noopener noreferrer">
                         {entry.shortURL}
                       </a>
                     </td>

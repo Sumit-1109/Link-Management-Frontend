@@ -4,7 +4,6 @@ import PropTypes from "prop-types";
 const PrivateRoute = ({children}) => {
     const token = localStorage.getItem('token');
 
-    console.log('Token: ',token);
 
     return token ? children : <Navigate to='/login' />;
 };

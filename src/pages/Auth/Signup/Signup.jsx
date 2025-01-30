@@ -16,11 +16,17 @@ function Signup({showToast}) {
     confirmPassword: "",
   });
 
+  const [error, setError] = useState('');
+  const [isError, setIsError] = useState(false);
+
   const handleChange = (e) => {
     setSignupDetails({
       ...signupDetails,
       [e.target.id]: e.target.value.trim(),
     });
+
+    setError('');
+    setIsError(false);
   };
 
   const handleSubmit = async (e) => {
@@ -30,9 +36,10 @@ function Signup({showToast}) {
     try {
 
         const res = await signup(signupDetails);
+        const data = await res.json();
+            
 
         if(res.status === 201) {
-            const data = await res.json();
             const successMessage = data.message; 
 
             setSignupDetails({
@@ -46,11 +53,14 @@ function Signup({showToast}) {
             showToast(successMessage);
             navigate("/login");
 
+        } else if(res.status === 400) {
+          const errorMessage = data.message;
+            setError(errorMessage);
+        } else if (res.status === 401) {
+          setIsError(true);
+          setError(data.message);
         } else {
-            const data = await res.json();
-            const errorMessage = data.message;
-
-            showToast(errorMessage);
+          showToast(data.message)
         }
     } catch (err) {
         console.log(err);
@@ -81,7 +91,7 @@ function Signup({showToast}) {
         
           <div className="signupInputBoxes">
 
-          <div className="nameInput">
+          <div className="nameInput errorFreeDiv">
               <input
                 type="text"
                 id="name"
@@ -91,7 +101,7 @@ function Signup({showToast}) {
               />
             </div>
 
-            <div className="emailInput">
+            <div className="emailInput errorFreeDiv">
               <input
                 type="email"
                 id="email"
@@ -101,7 +111,7 @@ function Signup({showToast}) {
               />
             </div>
 
-            <div className="mobileInput">
+            <div className="mobileInput errorFreeDiv">
               <input
                 type="text"
                 id="mobile"
@@ -111,7 +121,7 @@ function Signup({showToast}) {
               />
             </div>
 
-            <div className="passwordInput">
+            <div className={`passwordInput ${isError ? "passwordMismatchError" : 'errorFreeDiv'}`}>
               <input
                 type="password"
                 id="password"
@@ -121,8 +131,9 @@ function Signup({showToast}) {
               />
             </div>
 
-            <div className="confirmPasswordInput">
+            <div className={`passwordInput ${isError ? "passwordMismatchError" : 'errorFreeDiv'}`}>
               <input
+                className={isError ? "passwordMismatchError" : ''}
                 type="password"
                 id="confirmPassword"
                 placeholder="Confirm Password"
@@ -132,7 +143,9 @@ function Signup({showToast}) {
             </div>
           </div>
 
-          
+          <div className="errorContainer">
+            <p className="signUp-error">{error}</p>
+          </div>      
 
           <div className="signupRegister">
             <button type="submit">Register</button>

@@ -12,7 +12,7 @@ import search from '../../assets/search.png';
 import { getUserName } from "../../services/auth";
 import PropTypes from "prop-types";
 
-function Navbar({setShowModal}) {
+function Navbar({setShowModal, setSearchQuery, nameLastUpdated, setEditModal, setShortURLID }) {
   const navigate = useNavigate();
 
   const [time, setTime] = useState("");
@@ -21,6 +21,7 @@ function Navbar({setShowModal}) {
   const [firstName, setFirstName] = useState("");
   const [initials, setInitials] = useState("");
   const [showLogout, setShowLogout] = useState(false);
+  const [searchInputValue, setSearchInputValue] = useState('');
 
   useEffect(() => {
 
@@ -49,7 +50,7 @@ function Navbar({setShowModal}) {
       console.log("Come on man, Login !!");
       navigate("/login");
     }
-  }, []);
+  }, [nameLastUpdated]);
 
   useEffect(() => {
     const updateGreeting = () => {
@@ -99,6 +100,20 @@ function Navbar({setShowModal}) {
     navigate('/login');
   }
 
+  const handleSearch = () => {
+    if(searchInputValue !== ''){
+      setSearchQuery(searchInputValue);
+      navigate('/home/links')
+      console.log(searchInputValue);
+    }
+  }
+
+  const handleKeyDown = (e) => {
+    if(e.key === "Enter") {
+      handleSearch();
+    }
+  }
+
   return (
     <div className="navbarComponent">
 
@@ -118,13 +133,13 @@ function Navbar({setShowModal}) {
       </div>
 
     <div className="navbarRight">
-    <div className="createNewButton" onClick={() => setShowModal(true)}>
+    <div className="createNewButton" onClick={() => {setShowModal(true); setEditModal(false), setShortURLID("")}}>
         <button> <img src={create} alt="create" /> Create New</button>
       </div>
 
       <div className="linkSearchBar">
         <img src={search} alt="search" />
-        <input type="text" placeholder="Search link" />
+        <input type="text" placeholder="Search link" value={searchInputValue} onChange={(e) => setSearchInputValue(e.target.value)} onKeyDown={handleKeyDown} />
       </div>
 
       <div className="greetingsInitial" onClick={() => setShowLogout(!showLogout)}>
@@ -149,4 +164,8 @@ export default Navbar;
 
 Navbar.propTypes = {
   setShowModal : PropTypes.func,
+  setSearchQuery: PropTypes.func,
+  nameLastUpdated: PropTypes.number,
+  setEditModal: PropTypes.func,
+  setShortURLID: PropTypes.func
 }

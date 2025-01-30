@@ -13,11 +13,14 @@ function Login({showToast}) {
     password: "",
   });
 
+  const [error, setError] = useState('');
+
   const handleChange = (e) => {
     setLoginDetails({
       ...loginDetails,
       [e.target.id]: e.target.value.trim(),
     });
+    setError('');
   };
 
   const handleSubmit = async (e) => {
@@ -25,10 +28,10 @@ function Login({showToast}) {
 
     try{
         const res = await login(loginDetails);
+        const data = await res.json();
 
         if (res.status === 200){
 
-            const data = await res.json();
             const {message, token} = data;
 
             localStorage.setItem("token", token);
@@ -40,11 +43,13 @@ function Login({showToast}) {
 
             showToast(message);
             navigate("/home");
-        } else {
-            const data = await res.json();
+        } else if (res.status === 400 || res.status === 401) {
+            
             const errorMessage = data.message;
 
-            showToast(errorMessage);
+            setError(errorMessage);
+        } else {
+          showToast(data.message);
         }
     } catch (err) {
         console.log(err);
@@ -72,9 +77,9 @@ function Login({showToast}) {
 
         <form className="loginForm" onSubmit={handleSubmit}>
           <div className="loginInputBoxes">
-            <div className="emailInput">
+            <div className={`${error === '' ? 'emailInput' : 'loginError' }`}>
               <input
-                type="text"
+                type="email"
                 id="email"
                 placeholder="Email id"
                 value={loginDetails.email}
@@ -82,7 +87,7 @@ function Login({showToast}) {
               />
             </div>
 
-            <div className="passwordInput">
+            <div className={`${error === '' ? 'passwordInput' : 'loginError' }`}>
               <input
                 type="password"
                 id="password"
@@ -91,6 +96,10 @@ function Login({showToast}) {
                 onChange={handleChange}
               />
             </div>
+          </div>
+
+          <div className="loginPageErrorContainer">
+            <p className="login-error">{error}</p>
           </div>
 
           <div className="loginRegister">

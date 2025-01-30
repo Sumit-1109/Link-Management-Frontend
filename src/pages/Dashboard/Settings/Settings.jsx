@@ -7,7 +7,9 @@ import { useNavigate } from "react-router-dom";
 function Settings({
   setShowModal,
   setDeleteModal,
-  setDeleteUser
+  setDeleteUser,
+  showToast,
+  setNameLastUpdated
 }) {
   const [userDetails, setUserDetails] = useState({
     name: '',
@@ -33,9 +35,6 @@ function Settings({
         if (res.status === 200) {
 
           const data = await res.json();
-          console.log(data);
-          console.log(data.user);
-          console.log(data.user.name);
 
           setUserDetails(data.user);
 
@@ -65,19 +64,24 @@ function Settings({
 
     try {
       const res = await modifyUserDetails(userDetails, token);
+      const data = await res.json();
 
       if (res.status === 200) {
-        const data = await res.json();
 
         if(data.emailChanged) {
           localStorage.removeItem("token");
           navigate('/login');
         } else{
-        setUserDetails(data.userDetails);
+          setUserDetails(data.userDetails);
+          if (data.nameChanged){
+            setNameLastUpdated(Date.now());
+          }
         }
         
+        showToast(data.message);
+
       } else {
-        console.error("The universe does not want you to !!");
+        showToast(data.message);
       }
     } catch (err) {
       console.error(err);
@@ -166,4 +170,6 @@ Settings.propTypes = {
     initials: PropTypes.string,
   }),
   setUser: PropTypes.func,
+  showToast: PropTypes.func,
+  setNameLastUpdated: PropTypes.func
 };

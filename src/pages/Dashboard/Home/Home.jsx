@@ -18,7 +18,10 @@ function Home({
   setShortURLID,
   setLastUpdated,
   setDeleteUser,
-  deleteUser
+  deleteUser,
+  setSearchQuery,
+  showToast,
+  nameLastUpdated
 }) {
   const navigate = useNavigate();
 
@@ -35,7 +38,7 @@ function Home({
       <Leftbar />
 
       <div className="rightBody">
-        <Navbar setShowModal={setShowModal} />
+        <Navbar setShowModal={setShowModal} setSearchQuery={setSearchQuery} nameLastUpdated={nameLastUpdated} setEditModal={setEditModal} setShortURLID={setShortURLID} />
 
         <div className="homeBody">
           <Outlet />
@@ -54,6 +57,7 @@ function Home({
           setLastUpdated={setLastUpdated}
           deleteUser={deleteUser}
           setDeleteUser={setDeleteUser}
+          showToast={showToast}
         />
       )}
     </div>
@@ -73,5 +77,8 @@ Home.propTypes = {
   setShortURLID: PropTypes.func,
   setLastUpdated: PropTypes.func,
   deleteUser: PropTypes.bool,
-  setDeleteUser: PropTypes.func
+  setDeleteUser: PropTypes.func,
+  setSearchQuery: PropTypes.func,
+  showToast: PropTypes.func,
+  nameLastUpdated: PropTypes.number
 };

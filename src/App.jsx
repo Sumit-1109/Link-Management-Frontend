@@ -5,7 +5,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import AuthRedirect from "./pages/Auth/AuthRedirect/AuthRedirect";
 import Login from "./pages/Auth/Login/Login";
 import Signup from "./pages/Auth/Signup/Signup";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Toast from "./components/Toast/Toast";
 import Home from "./pages/Dashboard/Home/Home";
 import Dashboard from "./pages/Dashboard/Dashboard/Dashboard";
@@ -26,7 +26,9 @@ function App() {
   const [deleteModal, setDeleteModal] = useState(false);
   const [shortURLID, setShortURLID] = useState("");
   const [lastUpdated, setLastUpdated] = useState(Date.now());
+  const [nameLastUpdated, setNameLastUpdated] = useState(Date.now());
   const [deleteUser, setDeleteUser] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
 
   const showToast = (message) => {
     setToast({
@@ -48,6 +50,10 @@ function App() {
       message: "",
     });
   };
+
+  useEffect(() => {
+    console.log(searchQuery)
+  }, [searchQuery]);
 
   return (
         <BrowserRouter>
@@ -74,6 +80,9 @@ function App() {
                     setLastUpdated={setLastUpdated}
                     deleteUser={deleteUser}
                     setDeleteUser={setDeleteUser}
+                    setSearchQuery={setSearchQuery} 
+                    showToast={showToast}
+                    nameLastUpdated={nameLastUpdated}
                   />
                 </PrivateRoute>
               }
@@ -90,13 +99,16 @@ function App() {
                       setDeleteModal={setDeleteModal}
                       setShortURLID={setShortURLID}
                       lastUpdated={lastUpdated}
+                      searchQuery={searchQuery} 
+                      setSearchQuery={setSearchQuery} 
+                    showToast={showToast}
                     />
                 }
               />
               <Route
                 path="/home/analytics"
                 element={
-                    <Analytics />
+                    <Analytics showToast={showToast} />
                 }
               />
               <Route
@@ -106,6 +118,8 @@ function App() {
                       setDeleteModal={setDeleteModal}
                       setShowModal={setShowModal}
                       setDeleteUser={setDeleteUser}
+                      showToast={showToast}
+                      setNameLastUpdated={setNameLastUpdated}
                     />
                 }
               />

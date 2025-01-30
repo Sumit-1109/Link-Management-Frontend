@@ -9,6 +9,7 @@ export const shorten = (data, token) => {
             'Authorization': token
         },
         body: JSON.stringify(data),
+        credentials: 'include'
     });
 };
 
@@ -22,9 +23,9 @@ export const getDashboardLinkDetails = (token) => {
     });
 };
 
-export const getLinks = (sortConfig, page, token) => {
+export const getLinks = (sortConfig, searchQuery, page, token) => {
 
-    return fetch(`${URL}/api/links/linksPage?sortBy=${sortConfig.sortBy}&order=${sortConfig.order}&page=${page}&limit=10`, {
+    return fetch(`${URL}/api/links/linksPage?sortBy=${sortConfig.sortBy}&order=${sortConfig.order}&page=${page}&limit=10&q=${searchQuery}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',

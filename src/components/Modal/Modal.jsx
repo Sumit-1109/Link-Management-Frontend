@@ -24,7 +24,8 @@ function Modal({
   shortURLID,
   setLastUpdated,
   setDeleteUser,
-  deleteUser
+  deleteUser,
+  showToast,
 }) {
   const [isClosing, setIsClosing] = useState(false);
 
@@ -32,18 +33,18 @@ function Modal({
   const expirationInputRef = useRef(null);
 
   const navigate = useNavigate();
+  const [isEditingExpiration, setIsEditingExpiration] = useState(false);
+  const [isExpirationEnabled, setIsExpirationEnabled] = useState(false);
 
   const [linkInputDetails, setLinkInputDetails] = useState({
     originalURL: "",
     expirationDate: "",
     remarks: "",
     formattedExpirationDate: "",
+    isExpiration: isExpirationEnabled,
   });
 
-  const [fieldErrors, setFieldErrors] = useState({
-    
-  });
-  const [isEditingExpiration, setIsEditingExpiration] = useState(false);
+  const [fieldErrors, setFieldErrors] = useState({});
 
   const handleChange = (e) => {
     const { id, value } = e.target;
@@ -51,12 +52,14 @@ function Modal({
     if (id === "expirationDate") {
       const formattedValue = dayjs(value).format("MMM DD, YYYY, hh:mm A");
 
+      setLinkInputDetails((prevDetails) => ({
+        ...prevDetails,
+        expirationDate: value,
+        formattedExpirationDate: formattedValue,
+        isExpiration: !!value,
+      }));
 
-        setLinkInputDetails({
-          ...linkInputDetails,
-          expirationDate: value,
-          formattedExpirationDate: formattedValue,
-      })
+      setIsExpirationEnabled(!!value);
     } else {
       setLinkInputDetails({
         ...linkInputDetails,
@@ -74,7 +77,9 @@ function Modal({
     try {
       const res = await getLinkDetails(shortURLID, token);
       const data = await res.json();
-      const linkDetails = data.linkDetails;
+
+      if (res.status === 200) {
+        const linkDetails = data.linkDetails;
 
         setLinkInputDetails({
           originalURL: linkDetails.originalURL,
@@ -84,9 +89,14 @@ function Modal({
             ? dayjs(linkDetails.expirationDate).format("MMM DD, YYYY, hh:mm A")
             : "",
         });
-      
+
+        setIsExpirationEnabled(!!linkDetails.expirationDate);
+      } else {
+        showToast(data.message);
+      }
     } catch (err) {
       console.log(err);
+      showToast("Something's Fishy");
     }
   };
 
@@ -102,11 +112,20 @@ function Modal({
     const handleOutsideClick = (e) => {
       if (modalRef.current && !modalRef.current.contains(e.target)) {
         setIsClosing(true);
+      setTimeout(() => {
         setShowModal(false);
         setEditModal(false);
         setDeleteModal(false);
         setShortURLID("");
-      }
+        setLinkInputDetails({
+          originalURL: "",
+          expirationDate: "",
+          remarks: "",
+          formattedExpirationDate: "",
+          isExpiration: isExpirationEnabled,
+        });
+      }, 300)
+      };
     };
 
     document.addEventListener("mousedown", handleOutsideClick);
@@ -118,7 +137,12 @@ function Modal({
 
   const handleExpirationClick = () => {
     setIsEditingExpiration(true);
-    setTimeout(() => expirationInputRef.current?.focus(), 0);
+    setTimeout(() => {
+      if (expirationInputRef.current) {
+        expirationInputRef.current.focus();
+        expirationInputRef.current.showPicker?.();
+      }
+    }, 0);
   };
 
   const handleExpirationBlur = () => {
@@ -130,12 +154,12 @@ function Modal({
 
     try {
       const token = localStorage.getItem("token");
+      console.log(linkInputDetails);
       const res = await shorten(linkInputDetails, token);
-      const data = await res.json();
 
       if (res.status === 201) {
-        const message = data.message;
-        console.log(message);
+        const data = await res.json();
+        showToast(data.message);
 
         setLinkInputDetails({
           originalURL: "",
@@ -147,12 +171,17 @@ function Modal({
         setLastUpdated(Date.now());
         setIsClosing(true);
         setShowModal(false);
+        setIsExpirationEnabled(false);
       } else {
-        const { field, message } = data;
-        setFieldErrors((prev) => ({
-          ...prev,
-          [field]: message,
-        }));
+        const data = await res.json();
+        if (data.field) {
+          setFieldErrors((prev) => ({
+            ...prev,
+            [data.field]: data.message,
+          }));
+        } else {
+          showToast(data.message);
+        }
       }
     } catch (err) {
       console.error(err);
@@ -164,12 +193,13 @@ function Modal({
 
     try {
       const token = localStorage.getItem("token");
+      console.log(linkInputDetails);
       const res = await updateLinks(shortURLID, linkInputDetails, token);
-      const data = await res.json();
 
       if (res.status === 200) {
+        const data = await res.json();
         const message = data.message;
-        console.log(message);
+        showToast(message);
 
         setLinkInputDetails({
           originalURL: "",
@@ -182,24 +212,21 @@ function Modal({
         setLastUpdated(Date.now());
         setIsClosing(true);
         setShowModal(false);
+        setIsExpirationEnabled(false);
       } else {
-        const { field, message } = data;
-        setFieldErrors((prev) => ({
-          ...prev,
-          [field]: message,
-        }));
+        const data = await res.json();
+        if (data.field) {
+          setFieldErrors((prev) => ({
+            ...prev,
+            [data.field]: data.message,
+          }));
+        } else {
+          showToast(data.message);
+        }
       }
     } catch (err) {
       console.error(err);
     }
-  };
-
-  const handleCancelCreateOrEdit = async (e) => {
-    e.preventDefault();
-    setEditModal(false);
-    setShortURLID("");
-    setIsClosing(true);
-    setShowModal(false);
   };
 
   const handleDeleteLink = async (e) => {
@@ -214,13 +241,12 @@ function Modal({
       if (res.status === 200) {
         const message = data.message;
         console.log(message);
-        localStorage.removeItem('token');
+
         setShortURLID("");
         setDeleteModal(false);
         setLastUpdated(Date.now());
         setIsClosing(true);
         setShowModal(false);
-        navigate('/login');
       }
     } catch (err) {
       console.log(err);
@@ -241,32 +267,43 @@ function Modal({
     setIsClosing(true);
     setTimeout(() => {
       setShowModal(false);
-    }, 300);
+      setEditModal(false);
+      setDeleteModal(false);
+      setShortURLID("");
+      setLinkInputDetails({
+        originalURL: "",
+        expirationDate: "",
+        remarks: "",
+        formattedExpirationDate: "",
+        isExpiration: false,
+      });
+    }, 300); 
   };
+  
 
   const handleDeleteUser = async (e) => {
     e.preventDefault();
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
 
-    try{
+    try {
       const res = await deleteUserDetails(token);
       const data = await res.json();
 
-      if(res.status === 200) {
+      if (res.status === 200) {
         console.log(data.message);
+        localStorage.removeItem("token");
         setDeleteModal(false);
         setIsClosing(true);
         setShowModal(false);
         setDeleteUser(false);
-
-        
+        navigate("/login");
       } else {
         console.log(data.message);
       }
     } catch (err) {
       console.log(err);
     }
-  }
+  };
 
   return (
     <>
@@ -275,7 +312,11 @@ function Modal({
           <div className={`deleteModalContainer`}>
             <div ref={modalRef} className="deleteModal-modal-box">
               <div className="deleModal-are-you-sure">
-                {deleteUser ? <p> Are you sure, you want to delete the account ? </p> : <p>Are you sure, you want to remove it ?</p>}
+                {deleteUser ? (
+                  <p> Are you sure, you want to delete the account ? </p>
+                ) : (
+                  <p>Are you sure, you want to remove it ?</p>
+                )}
               </div>
 
               <div className="deleteModal-buttons-container">
@@ -321,21 +362,20 @@ function Modal({
                   </p>
                   <div
                     className={`urlInputBox ${
-                      editModal ? "readOnly-originalURL-input-modal" : ""
-                    } `}
+                      fieldErrors.originalURL ? "input-error" : ""
+                    }`}
                   >
                     <input
                       type="text"
                       placeholder="https://web.abc.com/"
-                      name="destination"
+                      name="originalURL"
                       id="originalURL"
                       value={linkInputDetails.originalURL}
                       onChange={handleChange}
-                      readOnly={editModal}
                     />
                   </div>
                   <div className="modalerror">
-                    {/* <p>{fieldErrors}</p> */}
+                    <p>{fieldErrors.originalURL}</p>
                   </div>
                 </div>
 
@@ -344,7 +384,9 @@ function Modal({
                     Remarks <span>*</span>
                   </p>
                   <textarea
-                    className="modalUrlRemarks"
+                    className={`modalUrlRemarks ${
+                      fieldErrors.remarks ? "input-error" : ""
+                    }`}
                     name="remarks"
                     id="remarks"
                     placeholder="Add remarks"
@@ -352,7 +394,7 @@ function Modal({
                     onChange={handleChange}
                   ></textarea>
                   <div className="modalerror">
-                    {/* <p>{fieldErrors}</p> */}
+                    <p>{fieldErrors.remarks}</p>
                   </div>
                 </div>
 
@@ -360,38 +402,94 @@ function Modal({
                   <div className="linkExpirationTitle">
                     <p className="modalInputs-heading">Link Expiration</p>
                     <label className="switch">
-                      <input type="checkbox" />
+                      <input
+                        type="checkbox"
+                        checked={isExpirationEnabled}
+                        onChange={() => {
+                          setIsExpirationEnabled((prev) => {
+                            const newExpirationEnabled = !prev;
+
+                            setLinkInputDetails((prevDetails) => ({
+                              ...prevDetails,
+                              isExpiration: newExpirationEnabled,
+                              expirationDate: newExpirationEnabled
+                                ? prevDetails.expirationDate
+                                : "",
+                              formattedExpirationDate: newExpirationEnabled
+                                ? prevDetails.formattedExpirationDate
+                                : "",
+                            }));
+
+                            setFieldErrors((prev) => ({
+                              ...prev,
+                              expirationDate: "",
+                            }));
+
+                            return newExpirationEnabled;
+                          });
+                        }}
+                      />
                       <span className="slider round"></span>
                     </label>
                   </div>
 
                   <div
-                    className="expirationDateInputBoxContainer"
+                    className={`expirationDateInputBoxContainer ${
+                      fieldErrors.expirationDate ? "input-error" : ""
+                    }`}
                   >
                     {isEditingExpiration ? (
-                        <input
-                          ref={expirationInputRef}
-                          type="datetime-local"
-                          id="expirationDate"
-                          className="createEditModal-expirationDate-input"
-                          value={linkInputDetails.expirationDate}
-                          onChange={handleChange}
-                          onBlur={handleExpirationBlur}
-                        />
-                    ) : (
-                      <div className="formattedInputBox-expirationDate-Container" onFocus={handleExpirationClick}>
                       <input
-                        type="text"
-                        placeholder="dd-mm-yyyy -:-"
-                        readOnly
-                        value={linkInputDetails.formattedExpirationDate}
-                        className="createEditModal-formattedExpirationDate"
+                        ref={expirationInputRef}
+                        type="datetime-local"
+                        id="expirationDate"
+                        className={`createEditModal-expirationDate-input ${
+                          !isExpirationEnabled ? "expiration-date-disabled" : ""
+                        }`}
+                        value={linkInputDetails.expirationDate}
+                        onChange={handleChange}
+                        onBlur={handleExpirationBlur}
+                        disabled={!isExpirationEnabled}
                       />
-                      <button type="button" className="calendarIconButton" onClick={handleExpirationClick}>
-                      <img src={calenderIcon} alt="calender"  />
-                      </button>
+                    ) : (
+                      <div
+                        className={`formattedInputBox-expirationDate-Container ${
+                          !isExpirationEnabled ? "expiration-date-disabled" : ""
+                        }`}
+                        onClick={(e) => {
+                          if(!isExpirationEnabled){
+                            e.stopPropagation();
+                          } else {
+                            handleExpirationClick();
+                          }
+                        }}
+                      >
+                        <input
+                          type="text"
+                          placeholder="dd-mm-yyyy -:-"
+                          readOnly
+                          value={linkInputDetails.formattedExpirationDate}
+                          className={`createEditModal-formattedExpirationDate ${!isExpirationEnabled ? "expiration-date-disabled" : ""}`}
+                          disabled={!isExpirationEnabled}
+                        />
+                        <button
+                          type="button"
+                          className="calendarIconButton"
+                          onClick={(e) => {
+                            if(!isExpirationEnabled) {
+                              e.stopPropagation();
+                            } else {
+                              handleExpirationClick();
+                            }
+                          }}
+                        >
+                          <img src={calenderIcon} alt="calender" />
+                        </button>
                       </div>
                     )}
+                  </div>
+                  <div className="modalerror">
+                    <p>{fieldErrors.expirationDate}</p>
                   </div>
                 </div>
               </div>
@@ -400,7 +498,16 @@ function Modal({
                 <div className="modalFooterButton">
                   <button
                     className="modalCreateEdit-CancelButton"
-                    onClick={(e) => handleCancelCreateOrEdit(e)}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setLinkInputDetails({
+                        originalURL: "",
+                        expirationDate: "",
+                        remarks: "",
+                        formattedExpirationDate: "",
+                      });
+                      setIsExpirationEnabled(false);
+                    }}
                   >
                     Clear
                   </button>
@@ -432,6 +539,7 @@ Modal.propTypes = {
   shortURLID: PropTypes.string,
   setShortURLID: PropTypes.func,
   setLastUpdated: PropTypes.func,
-    deleteUser: PropTypes.bool,
-    setDeleteUser: PropTypes.func
+  deleteUser: PropTypes.bool,
+  setDeleteUser: PropTypes.func,
+  showToast: PropTypes.func,
 };

@@ -99,9 +99,13 @@
     width: 100%;
     height: 100%;
     flex: 1;
-    border: 1px solid rgba(59, 60, 81, 1);
-    background-color: rgba(255, 255, 255, 1);
     border-radius: 7.5px;
+    background-color: rgba(255, 255, 255, 1);
+
+}
+
+.errorFreeDiv{
+    border: 1px solid rgba(59, 60, 81, 1);
 }
 
 .signupInputBoxes div input {
@@ -173,15 +177,26 @@
     -webkit-touch-callout: none;
 }
 
-button:active{
+.signupRegister button:active{
     transform: scale(0.95);
     box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
 }
 
-button{
+.signupRegister button{
     outline: none;
     cursor: pointer;
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+.passwordMismatchError{
+    border: 1px solid rgba(255, 1, 1, 1);
+}
+
+.signUp-error{
+    color: rgba(255, 1, 1, 1);
+    font-family: 'Manrope';
+    font-size: 0.75rem;
+    font-weight: 600;
 }
 
 @media (max-width: 480px) {

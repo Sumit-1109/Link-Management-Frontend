@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "./LinkSection.css";
 import { getLinks } from "../../../services/link";
 
@@ -14,7 +14,9 @@ function LinkSection({
   setEditModal,
   setDeleteModal,
   setShortURLID,
-  lastUpdated
+  lastUpdated,
+  searchQuery,
+  showToast
 }) {
   const [links, setLinks] = useState([]);
   const [sortConfig, setSortConfig] = useState({
@@ -25,20 +27,26 @@ function LinkSection({
   const [totalPages, setTotalPages] = useState(0);
   const [loading, setLoading] = useState(false);
 
+  const isFirstRender = useRef(true);
+
   const fetchLinks = async (page, sortConfig) => {
     setLoading(true);
     try {
       const token = localStorage.getItem("token");
-      const res = await getLinks(sortConfig, page, token);
-      console.log("req", sortConfig);
+      const res = await getLinks(sortConfig, searchQuery ,page, token);
       const data = await res.json();
 
       if (res.status === 200) {
         setLinks(data.links);
         setTotalPages(data.totalPages);
+        showToast(data.message);
+      } else {
+        setLinks([]);
+        showToast(data.message);
       }
     } catch (err) {
       console.log(err);
+      showToast('Server took a nap !!')
     } finally {
       setLoading(false);
     }
@@ -46,18 +54,13 @@ function LinkSection({
 
 
   useEffect(() => {
-    setCurrentPage(1);
+    if(isFirstRender.current) {
+      isFirstRender.current = false;
+      return
+    } 
     fetchLinks(currentPage, sortConfig);
-  }, [sortConfig, lastUpdated]);
+  }, [sortConfig, lastUpdated, searchQuery, currentPage])
 
-  useEffect(() =>{
-    fetchLinks(currentPage, sortConfig);
-  }, [currentPage]);
-
-  useEffect(() => {
-    setCurrentPage(1);
-    fetchLinks(currentPage, sortConfig);
-  }, []);
 
   const toggleSort = (field) => {
     setSortConfig((prev) => ({
@@ -69,7 +72,6 @@ function LinkSection({
 
   const handleEdit = (e,id) => {
     e.preventDefault();
-    setCurrentPage(1);
     setShowModal(true);
     setEditModal(true);
     setShortURLID(id);
@@ -77,7 +79,6 @@ function LinkSection({
 
   const handleDelete = (e, id) => {
     e.preventDefault();
-    setCurrentPage(1);
     setShortURLID(id);
     setDeleteModal(true);
     setShowModal(true);
@@ -86,8 +87,10 @@ function LinkSection({
   const copyLinkToClipboard = async (shortURL) => {
     try {
       await navigator.clipboard.writeText(shortURL);
+      showToast('Link copied')
     } catch (err) {
       console.log(err);
+      showToast('Fiasco');
     }
   };
 
@@ -151,7 +154,7 @@ function LinkSection({
                           onClick={() => toggleSort("status")}
                         />
                       </div>
-                      <div className="dateSortButtons">
+                      <div className="statusSortButtons">
                         <img
                           src={sortDown}
                           alt=""
@@ -178,11 +181,13 @@ function LinkSection({
                         
                     </td>
                     <td className="border url-column short-url">
-                          <span data-full-url={link.shortURL}>
+                          <span data-full-url={link.shortURL} >
                             <a
+                              className="links-url-column-aTag"
                               href={link.shortURL}
                               target="_blank"
                               rel="noopener noreferrer"
+                              onClick={() => fetchLinks(currentPage, sortConfig)}
                             >
                               {link.shortURL}
                             </a>
@@ -254,4 +259,7 @@ LinkSection.propTypes = {
   setDeleteModal: PropTypes.func,
   setShortURLID: PropTypes.func,
   lastUpdated :PropTypes.number,
+  setSearchQuery: PropTypes.func,
+  searchQuery: PropTypes.string,
+  showToast: PropTypes.func
 };
