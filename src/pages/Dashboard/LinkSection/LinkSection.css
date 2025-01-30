@@ -246,3 +246,33 @@
     color:rgba(102, 76, 108, 1);
     text-decoration: none;
 }
+
+@media (max-width: 480px){
+    .table-wrapper{
+        overflow-x: auto;
+        overflow-y: auto;
+        max-height: 100%;
+        max-width: 100%;
+        white-space: nowrap;
+    }
+
+    .linksPage-table{
+        width: 200vw;
+        min-width: 100%;
+        table-layout: auto;
+    }
+    
+    .InnerTableContainer{
+        height: 100%;
+        width: 100%;
+        overflow-x: auto;
+        overflow-y: auto;
+        max-height: 100%;
+        max-width: 100%;
+    }
+    
+    .remarks-column{
+        width: 15%;
+    }
+
+}

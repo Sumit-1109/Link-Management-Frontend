@@ -1,5 +1,6 @@
 .leftbarSection {
-    width: 18.75%;
+    width: 100%;
+    height: 100%;
     display: flex;
     flex-direction: column;
     color: rgba(59, 60, 81, 1);
@@ -60,6 +61,10 @@
     color: rgba(59, 60, 81, 1);
 }
 
+.dashboardSettings-mobileView{
+    display: none;
+}
+
 .dashboardSettings svg {
     width: 16px;
     aspect-ratio: 1/1;
@@ -80,4 +85,71 @@
 
 .activeTab{
     background-color: rgb(233, 241, 251);
+}
+
+@media (max-width: 480px) {
+    .leftbarSection{
+        flex-direction: row;
+        width: 100%;
+        height: 100%;
+    }
+
+    .leftbarLogo{
+        display: none;
+    }
+
+    .dashboardSettings {
+        display: none;
+    }
+
+    .dashboardTabs {
+        margin-top: 0%;
+        margin-bottom: 0%;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        /* gap: 0.5%; */
+        padding-inline: 1.5%;
+    }
+
+    .dashboardTabName svg {
+        width: 12px;
+        aspect-ratio: 1/1;
+        stroke: rgba(59, 60, 81, 1);
+    }
+
+    /* .dashboardSettings-mobileView{
+        flex: 1;
+        height: 100%;
+        padding-left: 0%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 5%;
+        margin-inline: 0%;
+        border-radius: 15px;
+        cursor: pointer;
+        text-decoration: none;
+        color: rgba(59, 60, 81, 1);
+    } */
+
+    .dashboardTabName {
+        flex: 1;
+        height: 100%;
+        padding-left: 0%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 2.5%;
+        margin-inline: 0%;
+        border-radius: 15px;
+        cursor: pointer;
+        text-decoration: none;
+        color: rgba(59, 60, 81, 1);
+    }
+    .activeTab{
+        background-color: rgb(233, 241, 251);
+    }
 }

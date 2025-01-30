@@ -35,10 +35,17 @@ function Home({
 
   return (
     <div className="homePage">
+
+      <div className="homePage-LeftBar">
       <Leftbar />
+      </div>
 
       <div className="rightBody">
         <Navbar setShowModal={setShowModal} setSearchQuery={setSearchQuery} nameLastUpdated={nameLastUpdated} setEditModal={setEditModal} setShortURLID={setShortURLID} />
+
+      <div className="leftBar-movileView">
+      <Leftbar />
+      </div>
 
         <div className="homeBody">
           <Outlet />

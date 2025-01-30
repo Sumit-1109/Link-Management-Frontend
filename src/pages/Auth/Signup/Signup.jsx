@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useNavigate, NavLink } from "react-router-dom";
 import { signup } from "../../../services/auth";
 import PropTypes from "prop-types";
+import cuvetteLogo from "../../../assets/cuvetteLogo.svg";
 
 function Signup({showToast}) {
   const navigate = useNavigate();
@@ -72,11 +73,20 @@ function Signup({showToast}) {
   return (
     <div className="signupPage">
       <div className="imageSection">
-        <img src={authImage} alt="authPageImage" />
+        <img className="imageSection-image" src={authImage} alt="authPageImage" />
+
+        <div className="imageSection-Logo">
+                  <img src={cuvetteLogo} alt="" />
+                </div>
       </div>
 
       <div className="signupSection">
         <div className="redirectButtons">
+
+          <div className="imageSection-Logo-mobileMode">
+                    <img src={cuvetteLogo} alt="cuvetteLogo" />
+          </div>
+
           <div className="buttons signup">
             <button>SignUp</button>
           </div>

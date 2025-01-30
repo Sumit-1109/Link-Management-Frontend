@@ -130,6 +130,19 @@ function Navbar({setShowModal, setSearchQuery, nameLastUpdated, setEditModal, se
           <p className="greetingsTime">{time}</p>
 
         </div>
+
+        <div className="greetingsInitial-mobileView" onClick={() => setShowLogout(!showLogout)}>
+          <p>{initials}</p>
+        </div>
+
+        {
+          showLogout && (
+            <div className="navbarLogoutButton-mobileView" onClick={handleLogout}>
+              <p>Logout</p>
+            </div>
+          )
+        }
+
       </div>
 
     <div className="navbarRight">

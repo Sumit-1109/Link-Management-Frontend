@@ -62,7 +62,7 @@
     outline: none;
     border-radius: 5px;
     color: white;
-    font-family: Manrope;
+    font-family: 'Manrope';
     font-size: 0.85rem;
     font-weight: 600;
     line-height: 1.25;
@@ -127,12 +127,12 @@
     cursor: pointer;
 }
 
-.navbarRight{
+.navbarRight {
     position: relative;
     overflow: visible;
 }
 
-.navbarLogoutButton{
+.navbarLogoutButton {
     position: absolute;
     left: 80%;
     bottom: -90%;
@@ -140,4 +140,98 @@
     padding: 1% 4%;
     color: rgb(93, 97, 123);
     cursor: pointer;
+}
+
+ .greetingsInitial-mobileView{
+    display: none;
+ }
+
+@media (max-width: 480px) {
+
+    .navbarComponent {
+        flex-direction: column;
+        height: 18%;
+        padding: 5% 5%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        overflow: visible;
+    }
+
+    .greetingsInitial-mobileView {
+        margin-right: 0% !important;
+        width: 30px !important;
+        height: 30px !important;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 50%;
+        background-color: rgba(253, 228, 138, 1);
+        color: rgba(146, 62, 14, 1);
+        font-family: 'Manrope';
+        font-size: 0.85rem;
+        font-weight: 700;
+        cursor: pointer;
+    }
+
+    .navbarGreetings {
+        flex: 1;
+        width: 100% !important;
+        display: flex;
+        gap: 2%;
+    }
+
+    .greetingsNameAndTime {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 2%;
+        width: 50%;
+    }
+
+    .navbarRight {
+        width: 100%;
+    }
+
+    .greetingsInitial{
+        display: none;
+    }
+
+    .createNewButton {
+        width: 35%;
+        height: 5vh;
+    }
+    
+    .createNewButton button {
+        font-size: 0.85rem;
+    }
+    
+    .createNewButton button img {
+        width: 12.25px;
+        aspect-ratio: 1/1;
+    }
+    
+    .linkSearchBar {
+        width: 55%;
+        height: 5vh;
+        display: flex;
+        align-items: center;
+        padding-left: 1.5%;
+        border: 1px solid rgba(236, 236, 242, 1);
+        box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
+        border-radius: 7.5px;
+    }
+
+    .navbarLogoutButton {
+        display: none;
+    }
+    .navbarLogoutButton-mobileView {
+        position: absolute;
+        right: 12%;
+        top: 7%;
+        border: 1px solid rgb(177, 177, 206);
+        padding: 1% 4%;
+        color: rgb(93, 97, 123);
+        cursor: pointer;
+    }
 }
