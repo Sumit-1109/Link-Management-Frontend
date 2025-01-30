@@ -20,10 +20,11 @@ function Signup({showToast}) {
   const [isError, setIsError] = useState(false);
 
   const handleChange = (e) => {
-    setSignupDetails({
-      ...signupDetails,
-      [e.target.id]: e.target.value.trim(),
-    });
+
+      setSignupDetails({
+        ...signupDetails,
+        [e.target.id]: e.target.value,
+      });
 
     setError('');
     setIsError(false);

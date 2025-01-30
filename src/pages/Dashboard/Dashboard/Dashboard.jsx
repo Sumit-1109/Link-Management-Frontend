@@ -16,8 +16,6 @@ import PropTypes from 'prop-types';
 
 ChartJS.register(BarElement, CategoryScale, LinearScale, Title, Tooltip, Legend, ChartDataLabels);
 
-const token = localStorage.getItem("token");
-
 const Dashboard = ({showToast}) => {
 
   const [totalClicks, setTotalClicks] = useState(0);
@@ -27,6 +25,7 @@ const Dashboard = ({showToast}) => {
   const [deviceClicks, setDeviceClicks] = useState([]);
 
   useEffect(() => {
+    const token = localStorage.getItem("token");
     const fetchData = async () => {
       try {
         const res = await getDashboardLinkDetails(token);
@@ -55,7 +54,7 @@ const Dashboard = ({showToast}) => {
     };
 
     fetchData();
-  }, [token]);
+  }, []);
 
   const dateWiseData = {
     labels: dateLabels,
