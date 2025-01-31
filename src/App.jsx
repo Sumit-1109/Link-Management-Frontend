@@ -101,7 +101,7 @@ function App() {
                       lastUpdated={lastUpdated}
                       searchQuery={searchQuery} 
                       setSearchQuery={setSearchQuery} 
-                    showToast={showToast}
+                      showToast={showToast}
                     />
                 }
               />

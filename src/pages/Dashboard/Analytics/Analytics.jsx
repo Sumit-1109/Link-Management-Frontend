@@ -92,8 +92,8 @@ function Analytics() {
                                             </div>
                     </div>
                   </th>
-                  <th className="analyticsTable-border analyticsTable-url-column">Original URL</th>
-                  <th className="analyticsTable-border analyticsTable-url-column">Short URL</th>
+                  <th className="analyticsTable-border analyticsTable-original-url-column analyticsTable-url-column">Original URL</th>
+                  <th className="analyticsTable-border analyticsTable-short-url-column analyticsTable-url-column">Short URL</th>
                   <th className="analyticsTable-border analyticsTable-ip-column">IP</th>
                   <th className="analyticsTable-border analyticsTable-browser-column">Browser</th>
                 </tr>
@@ -102,12 +102,20 @@ function Analytics() {
                 {analytics.map((entry, index) => (
                   <tr key={index}>
                     <td className="analyticsTable-border analyticsTable-date-column">{entry.timestamp}</td>
-                    <td className="analyticsTable-border analyticsTable-url-column">{entry.originalURL}</td>
-                    <td className="analyticsTable-border analyticsTable-url-column">
-                      <a className="url-column-aTag" href={entry.shortURL} target="_blank" rel="noopener noreferrer">
-                        {entry.shortURL}
-                      </a>
-                    </td>
+                    <td className="analyticsTable-border analyticsTable-original-url-column analyticsTable-url-column"><span data-full-url={entry.originalURL}>{entry.originalURL}</span> </td>
+                    <td className="analyticsTable-border analyticsTable-url-column analyticsTable-short-url-column">
+                                              <span data-full-url={entry.shortURL} >
+                                                <a
+                                                  className="analyticsTable-short-url-column-aTag"
+                                                  href={entry.shortURL}
+                                                  target="_blank"
+                                                  rel="noopener noreferrer"
+                                                  onClick={() => fetchAnalytics(currentPage, sortConfig)}
+                                                >
+                                                  {entry.shortURL}
+                                                </a>
+                                              </span>
+                                        </td>
                     <td className="analyticsTable-border analyticsTable-ip-column">{entry.ip}</td>
                     <td className="analyticsTable-border analyticsTable-browser-column">{entry.browser}</td>
                   </tr>

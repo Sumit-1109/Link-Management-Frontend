@@ -2,11 +2,12 @@
     width: 100%;
     height: 100%;
     background-color: #F1F1F1;
-    padding-block: 2% 2%;
+    padding-block: 2%;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    color: rgba(59, 60, 81, 1);
 }
 
 .analytics-table-wrapper{
@@ -21,6 +22,7 @@
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.04);
     overflow-y: auto;
     max-height: 100%;
+    padding-inline: 1%;
 }
 
 .analyticsPage-table {
@@ -84,7 +86,7 @@
 }
 
 .analyticsTable-border{
-    line-height: 1;
+    line-height: 1.5;
 }
 
 .analytics-pagination{
@@ -137,7 +139,19 @@
     opacity: 0.75 !important;
 }
 
-.analyticsTable-url-column a{
+.analyticsTable-short-url-column{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.analyticsTable-short-url-column{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.analyticsTable-url-column span{
     display: inline-block;
     max-width: 100%;
     overflow: hidden;
@@ -148,17 +162,18 @@
     position: relative;
 }
 
-.url-column-aTag{
+.analyticsTable-short-url-column-aTag{
     color: rgba(59, 60, 81, 1);
     text-decoration: none;
+    text-wrap: nowrap;
 }
 
-.url-column-aTag:hover{
+.analyticsTable-short-url-column-aTag:hover{
     color: #1717EE !important;
     text-decoration: underline;
 }
 
-.url-column-aTag:visited{
+.analyticsTable-short-url-column-aTag:visited{
     color:rgba(102, 76, 108, 1);
     text-decoration: none;
 }
@@ -171,6 +186,12 @@
         overflow-x: auto;
         max-width: 100%;
     }
+
+    .analyticsPage-table {
+        width: 250vw;
+        min-width: 100%;
+        table-layout: auto;
+    }
     
     .analytics-InnerTableContainer{
         height: 100%;
@@ -180,10 +201,25 @@
         max-height: 100%;
         max-width: 100%;
     }
-    
-    .analyticsPage-table {
-        width: 200vw;
-        min-width: 100%;
-        table-layout: auto;
+
+    .analyticsTable-date-column{
+        width: 50vw;
     }
+    
+    .analyticsTable-original-url-column{
+        width: 50vw;
+    }
+
+    .analyticsTable-short-url-column{
+        width: 50vw;
+    }
+
+    .analyticsTable-ip-column {
+        width: 50vw;
+    }
+
+    .analyticsTable-browser-column{
+        width: 50vw;
+    }
+    
 }

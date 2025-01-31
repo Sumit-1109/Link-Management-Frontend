@@ -86,7 +86,7 @@
 }
 
 .border{
-    line-height: 1;
+    line-height: 1.5;
 }
 
 .linksPage-actions-cell {
@@ -118,24 +118,50 @@
 
 .pagination{
     display: flex;
-    justify-content: center;
-    margin-top: 10px;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
+  gap: 8px;
 }
 
-.page-btn {
-    padding: 8px 12px;
-    margin: 0 5px;
+.page-btn, .prev-btn, .next-btn {
+    padding: 4px 8px;
     border: none;
     background-color: #007bff;
     color: white;
     cursor: pointer;
     border-radius: 4px;
+    font-size: 0.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .prev-btn, .next-btn {
+    padding: 4px 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
   
   .page-btn.active {
     background-color: #0056b3;
   }
 
+
+.prev-btn.disabled, .next-btn.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background-color: rgba(145, 158, 171, 1);
+  }
+  
+  .prev-btn:hover, .next-btn:hover {
+    background-color: #0056b3;
+  }
+  
+  .page-btn:hover {
+    background-color: #0056b3;
+  }
 
 
   .date-column-heading{
@@ -257,7 +283,7 @@
     }
 
     .linksPage-table{
-        width: 200vw;
+        width: 250vw;
         min-width: 100%;
         table-layout: auto;
     }
@@ -270,9 +296,30 @@
         max-height: 100%;
         max-width: 100%;
     }
-    
-    .remarks-column{
-        width: 15%;
+
+    .date-column{
+        width: 40vw;
     }
 
+    .original-url{
+        width: 50vw;
+    }
+
+    .remarks-column{
+        width: 40vw;
+    }
+
+    .narrow-column{
+        width: 30vw;
+    }
+    
+    .short-url{
+        width: 50vw;
+    }
+
+    .pagination{
+    margin-top: 10px;
+    margin-bottom: 50px;
+    }
+    
 }

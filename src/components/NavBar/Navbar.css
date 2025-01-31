@@ -146,6 +146,22 @@
     display: none;
  }
 
+ .linkSearchBar-clearSearch{
+    margin-right: 2%;
+    width: 12px;
+    aspect-ratio: 1/1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: transparent;
+    border: none;
+    outline: none;
+ }
+ .linkSearchBar-clearSearch img{
+    width: 100%;
+    height: 100%;
+ }
+
 @media (max-width: 480px) {
 
     .navbarComponent {

@@ -92,6 +92,7 @@
         flex-direction: row;
         width: 100%;
         height: 100%;
+        font-size: 0.8rem;
     }
 
     .leftbarLogo{
@@ -110,7 +111,7 @@
         display: flex;
         flex-direction: row;
         justify-content: space-between;
-        /* gap: 0.5%; */
+        gap: 0%;
         padding-inline: 1.5%;
     }
 
@@ -119,21 +120,6 @@
         aspect-ratio: 1/1;
         stroke: rgba(59, 60, 81, 1);
     }
-
-    /* .dashboardSettings-mobileView{
-        flex: 1;
-        height: 100%;
-        padding-left: 0%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 5%;
-        margin-inline: 0%;
-        border-radius: 15px;
-        cursor: pointer;
-        text-decoration: none;
-        color: rgba(59, 60, 81, 1);
-    } */
 
     .dashboardTabName {
         flex: 1;

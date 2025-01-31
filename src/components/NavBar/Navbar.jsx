@@ -7,12 +7,19 @@ import morningImg from "../../assets/morning.png";
 import afternoonImg from "../../assets/afternoon.png";
 import eveningImg from "../../assets/evening.png";
 import nightImg from "../../assets/night.png";
-import create from '../../assets/create.png';
-import search from '../../assets/search.png';
+import create from "../../assets/create.png";
+import search from "../../assets/search.png";
 import { getUserName } from "../../services/auth";
 import PropTypes from "prop-types";
+import clearSearchIcon from "../../assets/modalClose.png";
 
-function Navbar({setShowModal, setSearchQuery, nameLastUpdated, setEditModal, setShortURLID }) {
+function Navbar({
+  setShowModal,
+  setSearchQuery,
+  nameLastUpdated,
+  setEditModal,
+  setShortURLID,
+}) {
   const navigate = useNavigate();
 
   const [time, setTime] = useState("");
@@ -21,10 +28,9 @@ function Navbar({setShowModal, setSearchQuery, nameLastUpdated, setEditModal, se
   const [firstName, setFirstName] = useState("");
   const [initials, setInitials] = useState("");
   const [showLogout, setShowLogout] = useState(false);
-  const [searchInputValue, setSearchInputValue] = useState('');
+  const [searchInputValue, setSearchInputValue] = useState("");
 
   useEffect(() => {
-
     const token = localStorage.getItem("token");
 
     if (token) {
@@ -38,7 +44,7 @@ function Navbar({setShowModal, setSearchQuery, nameLastUpdated, setEditModal, se
             setInitials(data.initials);
           } else {
             console.log("Something is wrong with the universe !!");
-            navigate('/login');
+            navigate("/login");
           }
         } catch (err) {
           console.log(err);
@@ -97,78 +103,99 @@ function Navbar({setShowModal, setSearchQuery, nameLastUpdated, setEditModal, se
 
   const handleLogout = () => {
     localStorage.removeItem("token");
-    navigate('/login');
-  }
+    navigate("/login");
+  };
 
   const handleSearch = () => {
-    if(searchInputValue !== ''){
+    if (searchInputValue !== "") {
       setSearchQuery(searchInputValue);
-      navigate('/home/links')
+      navigate("/home/links");
       console.log(searchInputValue);
     }
-  }
+  };
 
   const handleKeyDown = (e) => {
-    if(e.key === "Enter") {
+    if (e.key === "Enter") {
       handleSearch();
     }
-  }
+  };
 
   return (
     <div className="navbarComponent">
-
       <div className="navbarGreetings">
-
         <div className="greetingTimeImage">
-
           <img src={greetingImg} alt="" />
-
         </div>
 
         <div className="greetingsNameAndTime">
           <p className="greetingsName">{greeting}</p>
           <p className="greetingsTime">{time}</p>
-
         </div>
 
-        <div className="greetingsInitial-mobileView" onClick={() => setShowLogout(!showLogout)}>
+        <div
+          className="greetingsInitial-mobileView"
+          onClick={() => setShowLogout(!showLogout)}
+        >
           <p>{initials}</p>
         </div>
 
-        {
-          showLogout && (
-            <div className="navbarLogoutButton-mobileView" onClick={handleLogout}>
-              <p>Logout</p>
-            </div>
-          )
-        }
-
+        {showLogout && (
+          <div className="navbarLogoutButton-mobileView" onClick={handleLogout}>
+            <p>Logout</p>
+          </div>
+        )}
       </div>
 
-    <div className="navbarRight">
-    <div className="createNewButton" onClick={() => {setShowModal(true); setEditModal(false), setShortURLID("")}}>
-        <button> <img src={create} alt="create" /> Create New</button>
+      <div className="navbarRight">
+        <div
+          className="createNewButton"
+          onClick={() => {
+            setShowModal(true);
+            setEditModal(false), setShortURLID("");
+          }}
+        >
+          <button>
+            {" "}
+            <img src={create} alt="create" /> Create New
+          </button>
+        </div>
+
+        <div className="linkSearchBar">
+          <img src={search} alt="search" />
+          <input
+            type="text"
+            placeholder="Search link"
+            value={searchInputValue}
+            onChange={(e) => setSearchInputValue(e.target.value)}
+            onKeyDown={handleKeyDown}
+          />
+          {searchInputValue && (
+            <button className="linkSearchBar-clearSearch" >
+            <img
+              onClick={() => {
+                setSearchQuery("");
+                setSearchInputValue("");
+              }}
+              src={clearSearchIcon}
+              alt="clear"
+            />
+            </button>
+          )}
+        </div>
+
+        <div
+          className="greetingsInitial"
+          onClick={() => setShowLogout(!showLogout)}
+        >
+          <p>{initials}</p>
+        </div>
+
+        {showLogout && (
+          <div className="navbarLogoutButton" onClick={handleLogout}>
+            <p>Logout</p>
+          </div>
+        )}
       </div>
-
-      <div className="linkSearchBar">
-        <img src={search} alt="search" />
-        <input type="text" placeholder="Search link" value={searchInputValue} onChange={(e) => setSearchInputValue(e.target.value)} onKeyDown={handleKeyDown} />
-      </div>
-
-      <div className="greetingsInitial" onClick={() => setShowLogout(!showLogout)}>
-        <p>{initials}</p>
-      </div>
-
-      {
-          showLogout && (
-            <div className="navbarLogoutButton" onClick={handleLogout}>
-              <p>Logout</p>
-            </div>
-          )
-        }
-
-    </div>
-
     </div>
   );
 }
@@ -176,9 +203,9 @@ function Navbar({setShowModal, setSearchQuery, nameLastUpdated, setEditModal, se
 export default Navbar;
 
 Navbar.propTypes = {
-  setShowModal : PropTypes.func,
+  setShowModal: PropTypes.func,
   setSearchQuery: PropTypes.func,
   nameLastUpdated: PropTypes.number,
   setEditModal: PropTypes.func,
-  setShortURLID: PropTypes.func
-}
+  setShortURLID: PropTypes.func,
+};

@@ -13,6 +13,7 @@ import dayjs from "dayjs";
 import calenderIcon from "../../assets/calendar.png";
 import { deleteUserDetails } from "../../services/auth";
 import { useNavigate } from "react-router-dom";
+import modalClose from "../../assets/modalClose.png";
 
 function Modal({
   setShowModal,
@@ -154,7 +155,6 @@ function Modal({
 
     try {
       const token = localStorage.getItem("token");
-      console.log(linkInputDetails);
       const res = await shorten(linkInputDetails, token);
 
       if (res.status === 201) {
@@ -193,7 +193,6 @@ function Modal({
 
     try {
       const token = localStorage.getItem("token");
-      console.log(linkInputDetails);
       const res = await updateLinks(shortURLID, linkInputDetails, token);
 
       if (res.status === 200) {
@@ -255,12 +254,13 @@ function Modal({
 
   const handleCancelDelete = async (e) => {
     e.preventDefault();
-
-    setDeleteModal(false);
-    setShortURLID("");
     setIsClosing(true);
+      setIsClosing(false);
+      setDeleteModal(false);
+      setShortURLID("");
     setShowModal(false);
     setDeleteUser(false);
+ 
   };
 
   const handleCloseModal = () => {
@@ -310,7 +310,12 @@ function Modal({
       {deleteModal ? (
         <div>
           <div className={`deleteModalContainer`}>
-            <div ref={modalRef} className="deleteModal-modal-box">
+            <div ref={modalRef} className={`deleteModal-modal-box ${isClosing ? "slideOut" : ""}`}>
+
+              <div className="deletemodal-close" onClick={handleCancelDelete}>
+                <img src={modalClose} alt="" />
+              </div>
+
               <div className="deleModal-are-you-sure">
                 {deleteUser ? (
                   <p> Are you sure, you want to delete the account ? </p>

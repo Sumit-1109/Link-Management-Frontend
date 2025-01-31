@@ -17,9 +17,8 @@ function LinkSection({
   setShortURLID,
   lastUpdated,
   searchQuery,
-  showToast
+  showToast,
 }) {
-
   const navigate = useNavigate();
   const [links, setLinks] = useState([]);
   const [sortConfig, setSortConfig] = useState({
@@ -38,10 +37,10 @@ function LinkSection({
       const token = localStorage.getItem("token");
 
       if (!token) {
-        showToast('Please Login');
-        navigate('/login');
+        showToast("Please Login");
+        navigate("/login");
       }
-      const res = await getLinks(sortConfig, searchQuery ,page, token);
+      const res = await getLinks(sortConfig, searchQuery, page, token);
       const data = await res.json();
 
       if (res.status === 200) {
@@ -54,35 +53,31 @@ function LinkSection({
       }
     } catch (err) {
       console.log(err);
-      showToast('Server took a nap !!')
+      showToast("Server took a nap !!");
     } finally {
       setLoading(false);
     }
   };
 
-
   useEffect(() => {
-    if(isFirstRender.current) {
+    if (isFirstRender.current) {
       isFirstRender.current = false;
-      return
-    } 
-    
+      return;
+    }
+
     const fetchData = async () => {
       await fetchLinks(currentPage, sortConfig);
     };
 
     fetchData();
-
   }, [sortConfig, lastUpdated, searchQuery, currentPage]);
 
   useEffect(() => {
     if (isFirstRender.current) {
       isFirstRender.current = false;
-    } 
+    }
     fetchLinks(currentPage, sortConfig);
   }, []);
-  
-
 
   const toggleSort = (field) => {
     setSortConfig((prev) => ({
@@ -92,7 +87,7 @@ function LinkSection({
     setCurrentPage(1);
   };
 
-  const handleEdit = (e,id) => {
+  const handleEdit = (e, id) => {
     e.preventDefault();
     setShowModal(true);
     setEditModal(true);
@@ -109,10 +104,10 @@ function LinkSection({
   const copyLinkToClipboard = async (shortURL) => {
     try {
       await navigator.clipboard.writeText(shortURL);
-      showToast('Link copied')
+      showToast("Link copied");
     } catch (err) {
       console.log(err);
-      showToast('Fiasco');
+      showToast("Fiasco");
     }
   };
 
@@ -157,11 +152,14 @@ function LinkSection({
                       </div>
                     </div>
                   </th>
-                  <th className="border url-column">Original URL</th>
-                  <th className="border url-column">Short URL</th>
+                  <th className="border url-column original-url">
+                    Original URL
+                  </th>
+                  <th className="border url-column short-url">Short URL</th>
                   <th className="border remarks-column">Remarks</th>
                   <th className="border narrow-column">Clicks</th>
-                  <th className="border narrow-column status-row-heading"><div className="status-heading">
+                  <th className="border narrow-column status-row-heading">
+                    <div className="status-heading">
                       <p>Status</p>
                     </div>
                     <div className="statusSortButtons-container">
@@ -171,7 +169,9 @@ function LinkSection({
                           alt=""
                           className={`${
                             sortConfig.sortBy === "status" &&
-                            (sortConfig.order === "asc" ? "statusSortActive" : "")
+                            (sortConfig.order === "asc"
+                              ? "statusSortActive"
+                              : "")
                           }`}
                           onClick={() => toggleSort("status")}
                         />
@@ -189,7 +189,8 @@ function LinkSection({
                           onClick={() => toggleSort("status")}
                         />
                       </div>
-                    </div></th>
+                    </div>
+                  </th>
                   <th className="border narrow-column">Actions</th>
                 </tr>
               </thead>
@@ -197,23 +198,23 @@ function LinkSection({
                 {links.map((link, index) => (
                   <tr key={index}>
                     <td className="border date-column">{link.createdAt}</td>
-                    <td className="border url-column">
-                      
-                          <span data-full-url={link.originalURL}>{link.originalURL}</span>
-                        
+                    <td className="border url-column original-url">
+                      <span data-full-url={link.originalURL}>
+                        {link.originalURL}
+                      </span>
                     </td>
                     <td className="border url-column short-url">
-                          <span data-full-url={link.shortURL} >
-                            <a
-                              className="links-url-column-aTag"
-                              href={link.shortURL}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              onClick={() => fetchLinks(currentPage, sortConfig)}
-                            >
-                              {link.shortURL}
-                            </a>
-                          </span>
+                      <span data-full-url={link.shortURL}>
+                        <a
+                          className="links-url-column-aTag"
+                          href={link.shortURL}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          onClick={() => fetchLinks(currentPage, sortConfig)}
+                        >
+                          {link.shortURL}
+                        </a>
+                      </span>
 
                       <img
                         className="shortURL-copy-button"
@@ -255,6 +256,14 @@ function LinkSection({
 
       {totalPages > 1 && (
         <div className="pagination">
+
+        <div
+      className={`prev-btn ${currentPage === 1 ? "disabled" : ""}`}
+      onClick={() => currentPage > 1 && setCurrentPage((prev) => prev - 1)}
+    >
+      {"<"}
+    </div>
+
           {Array.from({ length: totalPages }, (_, i) => (
             <button
               key={i + 1}
@@ -264,6 +273,14 @@ function LinkSection({
               {i + 1}
             </button>
           ))}
+
+          <div
+      className={`next-btn ${currentPage === totalPages ? "disabled" : ""}`}
+      onClick={() => currentPage < totalPages && setCurrentPage((prev) => prev + 1)}
+    >
+      {">"}
+    </div>
+          
         </div>
       )}
     </div>
@@ -280,8 +297,7 @@ LinkSection.propTypes = {
   deleteModal: PropTypes.bool,
   setDeleteModal: PropTypes.func,
   setShortURLID: PropTypes.func,
-  lastUpdated :PropTypes.number,
-  setSearchQuery: PropTypes.func,
+  lastUpdated: PropTypes.number,
   searchQuery: PropTypes.string,
-  showToast: PropTypes.func
+  showToast: PropTypes.func,
 };
