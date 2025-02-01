@@ -117,7 +117,7 @@ function Analytics() {
                                               </span>
                                         </td>
                     <td className="analyticsTable-border analyticsTable-ip-column">{entry.ip}</td>
-                    <td className="analyticsTable-border analyticsTable-browser-column">{entry.os}</td>
+                    <td className="analyticsTable-border analyticsTable-browser-column">{entry.userDevice}</td>
                   </tr>
                 ))}
               </tbody>
