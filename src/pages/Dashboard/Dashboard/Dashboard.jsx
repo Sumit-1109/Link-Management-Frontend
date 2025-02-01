@@ -80,7 +80,7 @@ const Dashboard = ({showToast}) => {
     ],
   };
 
-  const getFontSize = () => (window.innerWidth >= 1440 ? 30 : 12);
+  const getFontSize = () => (window.innerWidth >= 1920 ? 30 : 12);
 
   const options = {
     indexAxis: "y",
