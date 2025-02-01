@@ -113,7 +113,6 @@ function Modal({
     const handleOutsideClick = (e) => {
       if (modalRef.current && !modalRef.current.contains(e.target)) {
         setIsClosing(true);
-      setTimeout(() => {
         setShowModal(false);
         setEditModal(false);
         setDeleteModal(false);
@@ -125,7 +124,7 @@ function Modal({
           formattedExpirationDate: "",
           isExpiration: isExpirationEnabled,
         });
-      }, 300)
+  
       };
     };
 
