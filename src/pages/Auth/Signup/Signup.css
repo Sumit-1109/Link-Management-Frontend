@@ -291,3 +291,78 @@
     }
 
 }
+
+@media (min-width: 781px) and (max-width: 1024px){
+
+    .imageSection {
+        width: 30%;
+        height: 100%;
+        display: block;
+        position: relative;
+    }
+
+    .imageSection-Logo-mobileMode{
+        display: none;
+    }  
+
+    .redirectButtons {
+        width: 90% !important;
+        margin-left: 0% !important;
+        padding-inline: 2% 5% !important;
+        height: 4.25%;
+        margin-top: 10% !important;
+    }
+
+    .redirectButtons .buttons {
+        flex: 0.47;
+    }
+
+    .redirectButtons .buttons button {
+        border-radius: 7.5px;
+        font-size: 0.85rem;
+    }
+
+    .heading {
+        margin-top: 50%;
+        width: 80%;
+    }
+
+    .heading {
+        font-size: 1rem;
+        font-weight: 600;
+    }
+
+    .signupForm {
+        margin-top: 10%;
+        width: 80%;
+        height: 37%;
+    }
+
+    .signupInputBoxes{
+        gap: 6%;
+    }
+
+    .signupInputBoxes div input {
+        font-size: 0.85rem;
+    }
+
+    .signupRegister {
+        height: 12.75%;
+    }
+
+    .signupRegister button {
+        font-size: 0.9rem;
+    }
+
+
+    .toLogin {
+        margin-top: 8%;
+        font-size: 0.8rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 0;
+    }
+
+}

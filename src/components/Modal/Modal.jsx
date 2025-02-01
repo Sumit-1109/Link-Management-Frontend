@@ -255,11 +255,12 @@ function Modal({
   const handleCancelDelete = async (e) => {
     e.preventDefault();
     setIsClosing(true);
-      setIsClosing(false);
-      setDeleteModal(false);
-      setShortURLID("");
-    setShowModal(false);
-    setDeleteUser(false);
+      setTimeout(() => {
+        setDeleteModal(false);
+        setShortURLID("");
+      setShowModal(false);
+      setDeleteUser(false);
+      })
  
   };
 
@@ -276,8 +277,8 @@ function Modal({
         remarks: "",
         formattedExpirationDate: "",
         isExpiration: false,
-      });
-    }, 300); 
+      }, 300);
+    }); 
   };
   
 

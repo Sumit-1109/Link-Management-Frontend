@@ -526,7 +526,7 @@ input:checked+.slider:before {
     .switch {
         position: relative;
         display: inline-block;
-        width: 10%;
+        width: 8%;
         height: 6%;
         cursor: pointer;
     }
@@ -565,4 +565,17 @@ input:checked+.slider:before {
         height: 8%;
     }
 
+    .modalFooter {
+        height: 8%;
+    }
+
+    .slider:before {
+        height: 22.25px;
+    }
+
+    input:checked+.slider:before {
+        -webkit-transform: translateX(25px);
+        -ms-transform: translateX(25px);
+        transform: translateX(25px);
+    }
 }

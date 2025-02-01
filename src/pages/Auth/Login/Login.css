@@ -285,3 +285,77 @@ button{
     }
 
 }
+
+@media (min-width: 781px) and (max-width: 1024px) {
+
+    .imageSection{
+        display: none;
+    }
+
+    .imageSection-Logo-mobileMode{
+        display: none;
+    }
+
+    .loginSection{
+        width: 100vw;
+    }
+
+    .redirectButtons {
+        width: 90% !important;
+        margin-left: 0% !important;
+        padding-inline: 2% 5% !important;
+        height: 4.25%;
+        margin-top: 10% !important;
+    }
+
+
+    .redirectButtons .buttons {
+        flex: 0.47;
+    }
+
+    .redirectButtons .buttons button {
+        border-radius: 7.5px;
+        font-size: 0.85rem;
+    }
+
+    .heading {
+        margin-top: 30% !important;
+        width: 80%;
+    }
+
+    .heading {
+        font-size: 1rem;
+        font-weight: 600;
+    }
+
+    .loginForm {
+        margin-top: 10%;
+        width: 80%;
+        height: 17.5%;
+    }
+
+
+    .loginInputBoxes div input {
+        font-size: 0.85rem;
+    }
+
+    .loginRegister {
+        height: 24%;
+    }
+
+    .loginRegister button {
+        font-size: 0.9rem;
+    }
+
+
+    .toSignup {
+        margin-top: 8%;
+        font-size: 0.8rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 0;
+    }
+
+}

@@ -356,8 +356,8 @@
     }
     .navbarLogoutButton-mobileView {
         position: absolute;
-        right: 12%;
-        top: 7%;
+        right: 8%;
+        top: 5%;
         border: 1px solid rgb(177, 177, 206);
         padding: 1% 4%;
         color: rgb(93, 97, 123);
