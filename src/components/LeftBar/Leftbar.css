@@ -188,7 +188,15 @@
 
 }
 
-@media (min-width: 1440px) {
+@media (min-width: 1025px) and (max-width: 1439px) {
+
+    .dashboardTabName svg{
+        width: 12px !important;
+    }
+
+}
+
+@media (min-width: 1800px) {
 
     .dashboardTabName svg {
         width: 30px;
