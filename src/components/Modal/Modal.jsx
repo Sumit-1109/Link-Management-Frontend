@@ -117,6 +117,7 @@ function Modal({
         setEditModal(false);
         setDeleteModal(false);
         setShortURLID("");
+        setDeleteUser(false);
         setLinkInputDetails({
           originalURL: "",
           expirationDate: "",
