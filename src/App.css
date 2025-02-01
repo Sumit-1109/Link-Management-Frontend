@@ -10,3 +10,10 @@ html, body {
         font-size: 22.75px;
       }
     }
+
+    @media (min-width: 1440px) {
+      html{
+        font-size: 35.75px;
+      }
+    }
+    

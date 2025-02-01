@@ -104,3 +104,14 @@
     height: 70%;
   }
 }
+
+@media (min-width: 1440px) {
+
+  .dashboardGraph-label {
+    font-size: 0.9rem;
+  }
+
+
+}
+
+

@@ -325,3 +325,27 @@
         }     
     
 }
+
+@media (min-width: 1440px) {
+
+    .analyticsPage-table-body td{
+        padding-block: 15px;
+    }
+
+    .analyticsPage-table-headings{
+        font-family: 'Manrope';
+        font-size: 0.9rem;
+        font-weight: 600;
+    }
+    
+    .analyticsPagetable-headings {
+        padding-block: 30px 20px;
+    }
+    
+    .analyticsPage-table-body{
+        font-family: 'Manrope';
+        font-size: 0.85rem;
+        font-weight: 500;
+    }
+
+  }

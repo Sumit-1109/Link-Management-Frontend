@@ -374,3 +374,33 @@
     }
     
 }
+
+@media (min-width: 1440px) {
+
+    .linksPage-edit-btn img, .linksPage-delete-btn img {
+        width: 25px;
+        aspect-ratio: 1/1;
+    }
+
+    .linksPage-table-body td{
+        padding-block: 15px;
+    }
+
+    .linksPage-table-headings{
+        font-family: 'Manrope';
+        font-size: 0.9rem;
+        font-weight: 600;
+    }
+    
+    .linksPage-table-headings th {
+        padding-block: 30px 20px;
+    }
+    
+    .linksPage-table-body{
+        font-family: 'Manrope';
+        font-size: 0.85rem;
+        font-weight: 500;
+    }
+
+  }
+

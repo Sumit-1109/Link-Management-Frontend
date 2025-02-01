@@ -80,6 +80,8 @@ const Dashboard = ({showToast}) => {
     ],
   };
 
+  const getFontSize = () => (window.innerWidth >= 1440 ? 30 : 12);
+
   const options = {
     indexAxis: "y",
     plugins: {
@@ -91,7 +93,7 @@ const Dashboard = ({showToast}) => {
         color: 'rgba(24, 24, 32, 1)',
         font: {
           family: 'Manrope',
-          size: '12',
+          size: getFontSize(),
           weight: 700,
         },
         formatter: (value) => `${value}`,
@@ -107,7 +109,7 @@ const Dashboard = ({showToast}) => {
         ticks: {
           font: {
             family: 'Manrope',
-            size: '12',
+            size: getFontSize(),
             weight: 700,
           },
           color: 'rgba(24, 24, 32, 1)'

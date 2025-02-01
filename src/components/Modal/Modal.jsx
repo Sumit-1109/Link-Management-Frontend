@@ -291,7 +291,7 @@ function Modal({
       const data = await res.json();
 
       if (res.status === 200) {
-        console.log(data.message);
+        showToast(data.message);
         localStorage.removeItem("token");
         setDeleteModal(false);
         setIsClosing(true);
@@ -299,10 +299,10 @@ function Modal({
         setDeleteUser(false);
         navigate("/login");
       } else {
-        console.log(data.message);
+        showToast(data.message);
       }
     } catch (err) {
-      console.log(err);
+      showToast(err);
     }
   };
 
@@ -311,7 +311,7 @@ function Modal({
       {deleteModal ? (
         <div>
           <div className={`deleteModalContainer`}>
-            <div ref={modalRef} className={`deleteModal-modal-box ${isClosing ? "slideOut" : ""}`}>
+            <div ref={modalRef} className={`deleteModal-modal-box`}>
 
               <div className="deletemodal-close" onClick={handleCancelDelete}>
                 <img src={modalClose} alt="" />

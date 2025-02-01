@@ -187,3 +187,20 @@
     }
 
 }
+
+@media (min-width: 1440px) {
+
+    .dashboardTabName svg {
+        width: 30px;
+    }    
+
+    .dashboardSettings svg {
+        width: 30px;
+    }
+
+    .leftbarLogo {
+        transform: scale(1.5);
+        padding-left: 25%;
+    }
+  
+  }
