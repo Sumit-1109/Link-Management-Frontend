@@ -481,7 +481,7 @@ input:checked+.slider:before {
     }
 
     .deleteModal-modal-box {
-        width: 85%;
+        width: 88%;
         height: 30%;
         gap: 5%;
     }
