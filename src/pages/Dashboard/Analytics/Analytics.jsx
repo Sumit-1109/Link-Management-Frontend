@@ -94,8 +94,8 @@ function Analytics() {
                   </th>
                   <th className="analyticsTable-border analyticsTable-original-url-column analyticsTable-url-column">Original URL</th>
                   <th className="analyticsTable-border analyticsTable-short-url-column analyticsTable-url-column">Short URL</th>
-                  <th className="analyticsTable-border analyticsTable-ip-column">IP</th>
-                  <th className="analyticsTable-border analyticsTable-browser-column">Browser</th>
+                  <th className="analyticsTable-border analyticsTable-ip-column">IP Address</th>
+                  <th className="analyticsTable-border analyticsTable-browser-column">User Device</th>
                 </tr>
               </thead>
               <tbody className="analyticsPage-table-body">
@@ -117,7 +117,7 @@ function Analytics() {
                                               </span>
                                         </td>
                     <td className="analyticsTable-border analyticsTable-ip-column">{entry.ip}</td>
-                    <td className="analyticsTable-border analyticsTable-browser-column">{entry.browser}</td>
+                    <td className="analyticsTable-border analyticsTable-browser-column">{entry.os}</td>
                   </tr>
                 ))}
               </tbody>
@@ -126,16 +126,32 @@ function Analytics() {
         </div>
       )}
       {totalPages > 1 && (
-        <div className="analytics-pagination">
+        <div className="pagination">
+
+        <div
+      className={`prev-btn ${currentPage === 1 ? "disabled" : ""}`}
+      onClick={() => currentPage > 1 && setCurrentPage((prev) => prev - 1)}
+    >
+      {"<"}
+    </div>
+
           {Array.from({ length: totalPages }, (_, i) => (
             <button
               key={i + 1}
-              className={`analytics-page-btn ${currentPage === i + 1 ? "analytics-active" : ""}`}
+              className={`page-btn ${currentPage === i + 1 ? "active" : ""}`}
               onClick={() => setCurrentPage(i + 1)}
             >
               {i + 1}
             </button>
           ))}
+
+          <div
+      className={`next-btn ${currentPage === totalPages ? "disabled" : ""}`}
+      onClick={() => currentPage < totalPages && setCurrentPage((prev) => prev + 1)}
+    >
+      {">"}
+    </div>
+          
         </div>
       )}
     </div>
