@@ -273,7 +273,7 @@
     text-decoration: none;
 }
 
-@media (max-width: 480px){
+@media (max-width: 780px){
     .table-wrapper{
         overflow-x: auto;
         overflow-y: auto;
@@ -319,7 +319,58 @@
 
     .pagination{
     margin-top: 10px;
-    margin-bottom: 50px;
+    margin-bottom: 10px;
+    }
+    
+}
+
+@media (min-width: 781px) and (max-width: 1024px){
+    .table-wrapper{
+        overflow-x: auto;
+        overflow-y: auto;
+        max-height: 100%;
+        max-width: 100%;
+        white-space: nowrap;
+    }
+
+    .linksPage-table{
+        width: 250vw;
+        min-width: 100%;
+        table-layout: auto;
+    }
+    
+    .InnerTableContainer{
+        height: 100%;
+        width: 100%;
+        overflow-x: auto;
+        overflow-y: auto;
+        max-height: 100%;
+        max-width: 100%;
+    }
+
+    .date-column{
+        width: 40vw;
+    }
+
+    .original-url{
+        width: 50vw;
+    }
+
+    .remarks-column{
+        width: 40vw;
+    }
+
+    .narrow-column{
+        width: 30vw;
+    }
+    
+    .short-url{
+        width: 50vw;
+    }
+
+    .pagination{
+    margin-top: 10px;
+    margin-bottom: 10px;
     }
     
 }

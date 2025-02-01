@@ -178,7 +178,54 @@
     text-decoration: none;
 }
 
-@media (max-width: 480px) {
+.pagination{
+    display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
+  gap: 8px;
+}
+
+.page-btn, .prev-btn, .next-btn {
+    padding: 4px 8px;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .prev-btn, .next-btn {
+    padding: 4px 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .page-btn.active {
+    background-color: #0056b3;
+  }
+
+
+.prev-btn.disabled, .next-btn.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background-color: rgba(145, 158, 171, 1);
+  }
+  
+  .prev-btn:hover, .next-btn:hover {
+    background-color: #0056b3;
+  }
+  
+  .page-btn:hover {
+    background-color: #0056b3;
+  }
+
+@media (max-width: 780px) {
     
     .analytics-table-wrapper{
         overflow-y: auto;
@@ -221,5 +268,60 @@
     .analyticsTable-browser-column{
         width: 50vw;
     }
+    .pagination{
+        margin-top: 10px;
+        margin-bottom: 10px;
+        }     
+    
+}
+
+@media (min-width: 781px) and (max-width: 1024px) {
+    
+    .analytics-table-wrapper{
+        overflow-y: auto;
+        max-height: 100%;
+        overflow-x: auto;
+        max-width: 100%;
+    }
+
+    .analyticsPage-table {
+        width: 200vw;
+        min-width: 100%;
+        table-layout: auto;
+    }
+    
+    .analytics-InnerTableContainer{
+        height: 100%;
+        width: 100%;
+        overflow-x: auto;
+        overflow-y: auto;
+        max-height: 100%;
+        max-width: 100%;
+    }
+
+    .analyticsTable-date-column{
+        width: 40vw;
+    }
+    
+    .analyticsTable-original-url-column{
+        padding-inline: 2%;
+        width: 50vw;
+    }
+
+    .analyticsTable-short-url-column{
+        width: 50vw;
+    }
+
+    .analyticsTable-ip-column {
+        width: 30vw;
+    }
+
+    .analyticsTable-browser-column{
+        width: 30vw;
+    }
+    .pagination{
+        margin-top: 10px;
+        margin-bottom: 10px;
+        }     
     
 }

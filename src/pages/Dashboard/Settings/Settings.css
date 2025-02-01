@@ -112,7 +112,7 @@
 }
 
 
-@media (max-width: 480px) {
+@media (max-width: 780px) {
     .settingsPage-container{
         align-items: flex-start;
         margin-top: 20%;
@@ -120,6 +120,18 @@
 
     .settingsPage-modifyUserBox{
         width: 85%;
+        height: 55%;
+    }
+}
+
+@media (min-width: 781px) and (max-width: 1024px) {
+    .settingsPage-container{
+        align-items: flex-start;
+        margin-top: 15%;
+    }
+
+    .settingsPage-modifyUserBox{
+        width: 60%;
         height: 55%;
     }
 }

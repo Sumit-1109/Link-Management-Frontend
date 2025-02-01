@@ -53,7 +53,33 @@
   padding-bottom: 2%;
 }
 
-@media (max-width: 480px) {
+@media (max-width: 780px) {
+  .dashboardHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 65%;
+    font-family: 'Manrope';
+    font-size: 1.1rem;
+    font-weight: 700;
+  }
+
+  .dashboardGraphsContainer {
+    flex-direction: column;
+  }
+
+  .dashboardGraph {
+    flex: 1;
+    width: 80%;
+  }
+
+  .dashboardGraphsContainer {
+    margin-top: 0%;
+    height: 70%;
+  }
+}
+
+@media (min-width: 781px) and (max-width: 1024px) {
   .dashboardHeader {
     display: flex;
     justify-content: space-between;

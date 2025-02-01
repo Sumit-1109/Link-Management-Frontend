@@ -5,3 +5,8 @@ html, body {
     overflow-y: auto; 
   }
   
+  @media (min-width: 781px) and (max-width: 1024px) {
+      html{
+        font-size: 22.75px;
+      }
+    }

@@ -204,7 +204,7 @@ button{
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
-@media (max-width: 480px) {
+@media (max-width: 780px) {
 
     .imageSection{
         display: none;

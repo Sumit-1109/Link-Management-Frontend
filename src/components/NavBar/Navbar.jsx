@@ -12,6 +12,7 @@ import search from "../../assets/search.png";
 import { getUserName } from "../../services/auth";
 import PropTypes from "prop-types";
 import clearSearchIcon from "../../assets/modalClose.png";
+import cuvetteLogo from "../../assets/cuvetteLogo.svg";
 
 function Navbar({
   setShowModal,
@@ -132,18 +133,28 @@ function Navbar({
           <p className="greetingsTime">{time}</p>
         </div>
 
-        <div
-          className="greetingsInitial-mobileView"
-          onClick={() => setShowLogout(!showLogout)}
-        >
-          <p>{initials}</p>
-        </div>
+        <div className="navBar-right-mobileView-Container">
+          <div className="navBarLogo-mobileView">
+            <img src={cuvetteLogo} alt="" />
 
-        {showLogout && (
-          <div className="navbarLogoutButton-mobileView" onClick={handleLogout}>
-            <p>Logout</p>
           </div>
-        )}
+
+          <div
+            className="greetingsInitial-mobileView"
+            onClick={() => setShowLogout(!showLogout)}
+          >
+            <p>{initials}</p>
+          </div>
+
+          {showLogout && (
+            <div
+              className="navbarLogoutButton-mobileView"
+              onClick={handleLogout}
+            >
+              <p>Logout</p>
+            </div>
+          )}
+        </div>
       </div>
 
       <div className="navbarRight">
@@ -170,15 +181,15 @@ function Navbar({
             onKeyDown={handleKeyDown}
           />
           {searchInputValue && (
-            <button className="linkSearchBar-clearSearch" >
-            <img
-              onClick={() => {
-                setSearchQuery("");
-                setSearchInputValue("");
-              }}
-              src={clearSearchIcon}
-              alt="clear"
-            />
+            <button className="linkSearchBar-clearSearch">
+              <img
+                onClick={() => {
+                  setSearchQuery("");
+                  setSearchInputValue("");
+                }}
+                src={clearSearchIcon}
+                alt="clear"
+              />
             </button>
           )}
         </div>
