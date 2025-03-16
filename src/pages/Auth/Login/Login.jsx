@@ -113,7 +113,7 @@ function Login({showToast}) {
           </div>
 
           <div className="loginRegister">
-            <button>Register</button>
+            <button>Log in</button>
           </div>
         </form>
 
